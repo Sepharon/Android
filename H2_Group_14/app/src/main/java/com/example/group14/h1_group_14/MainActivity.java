@@ -109,4 +109,6 @@ public class MainActivity extends AppCompatActivity {
 
         alertDialog.show();
     }
+
+    // TODO: RECIVER http://android-coding.blogspot.in/2011/11/pass-data-from-service-to-activity.html
 }

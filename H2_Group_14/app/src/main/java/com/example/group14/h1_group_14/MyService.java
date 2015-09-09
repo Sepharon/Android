@@ -44,11 +44,20 @@ public class MyService extends Service {
         Log.v("Service","Going to sleep");
         Log.v("Service","Time = " + time);
         // Make sleep
-        try {
-            Thread.sleep(time*1000);
-        } catch (InterruptedException e) {
-            Log.v("Service","Error when trying to sleep");
-            e.printStackTrace();
+        // Create for that iterates for time
+        for (int i=0;i<time;i++) {
+            try {
+                //Intent broadcast = new Intent();
+                // Sleep for one second
+                Thread.sleep(1000);
+                // Tell second
+                intent.putExtra("time",i);
+                sendBroadcast(intent);
+
+            } catch (InterruptedException e) {
+                Log.v("Service", "Error when trying to sleep");
+                e.printStackTrace();
+            }
         }
         // Done
         Log.v("Service", "Done");
