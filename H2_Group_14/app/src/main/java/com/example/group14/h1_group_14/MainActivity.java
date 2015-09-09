@@ -1,7 +1,10 @@
 package com.example.group14.h1_group_14;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -19,10 +22,17 @@ public class MainActivity extends AppCompatActivity {
     Button Clean;
     EditText phrase;
     EditText time;
+    UpdateReceiver updateReceiver = new UpdateReceiver();
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        registerReceiver(updateReceiver, new IntentFilter("miss_temps"));
+
+
         StartService = (Button) findViewById(R.id.button);
         Clean = (Button) findViewById(R.id.button2);
         phrase = (EditText) findViewById(R.id.textView1);
@@ -33,13 +43,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String delay = time.getText().toString();
                 String phr = phrase.getText().toString();
-                if (delay.matches("") || phr.matches("")){
+                if (delay.matches("") || phr.matches("")) {
                     Toast.makeText(MainActivity.this, "Please fill in all the fields", Toast.LENGTH_SHORT).show();
-                }
-                else if (Integer.parseInt(delay)<5 || Integer.parseInt(delay)>60){
+                } else if (Integer.parseInt(delay) < 5 || Integer.parseInt(delay) > 60) {
                     Toast.makeText(MainActivity.this, "Delay must be minimum of 5 sec. to maximum of 60 sec.", Toast.LENGTH_SHORT).show();
-                }
-                else if (Integer.parseInt(delay)>=5 && Integer.parseInt(delay)<=60 ) {
+                } else if (Integer.parseInt(delay) >= 5 && Integer.parseInt(delay) <= 60) {
                     startService(v);
                 }
             }
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -75,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     // Method to start the service
     public void startService(View view) {
         // TEST
@@ -86,12 +96,13 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("time", delay);
         startService(intent);
     }
+
     public void openAbout() {
         Intent intent = new Intent(MainActivity.this, AboutActivity.class);
         startActivity(intent);
     }
 
-    public void onBackPressed(){
+    public void onBackPressed() {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
         alertDialog.setTitle(getApplicationContext().getResources().getString(R.string.dialogQuestion));
         alertDialog.setNegativeButton(getApplicationContext().getResources().getString(R.string.dialogNegative), new DialogInterface.OnClickListener() {
@@ -110,5 +121,14 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    // TODO: RECIVER http://android-coding.blogspot.in/2011/11/pass-data-from-service-to-activity.html
+    private class UpdateReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //You do here like usual using intent
+            Log.v("Activitat1", "onreceive");
+            String temps = intent.getStringExtra("time"); //
+            Toast.makeText(MainActivity.this, temps, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
