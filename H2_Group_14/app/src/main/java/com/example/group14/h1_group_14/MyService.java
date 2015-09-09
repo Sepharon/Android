@@ -6,7 +6,11 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+
 public class MyService extends Service {
+
+    public static final boolean DEV_MODE = true;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -17,16 +21,16 @@ public class MyService extends Service {
         String phrase;
         Intent in= new Intent(getBaseContext(),SecondActivity.class);
         // Let it continue running until it is stopped.
-        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+        if (DEV_MODE) Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         // We get the data
         phrase = retrive_data(intent);
-        Toast.makeText(this, phrase, Toast.LENGTH_LONG).show();
+        if (DEV_MODE) Toast.makeText(this, phrase, Toast.LENGTH_LONG).show();
         // Preparing to start activity two
         in.putExtra("phrase",phrase);
         in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //Start Acitvity two
         startActivity(in);
-        // Stop Service dfdfdfd
+        // Stop Service
         stopSelf();
         return START_STICKY;
     }
