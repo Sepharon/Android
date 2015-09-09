@@ -42,7 +42,7 @@ public class MyService extends Service {
         // Get time
         int time = Integer.parseInt(intent.getStringExtra("time"));
         Log.v("Service","Going to sleep");
-
+        Log.v("Service","Time = " + time);
         // Make sleep
         try {
             Thread.sleep(time*1000);
