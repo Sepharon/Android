@@ -10,4 +10,6 @@
     <string name="dialogPositive">Sí</string>
     <string name="dialogQuestion">Estas segur de què vols tancar l'aplicació?</string>
     <string name="hello_world">Hola mon!</string>
+    <string name="StartService">Executa el servei</string>
+    <string name="title_activity_second">SecondActivity</string>
 </resources>

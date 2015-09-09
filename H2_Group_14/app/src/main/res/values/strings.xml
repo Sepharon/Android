@@ -10,9 +10,6 @@
     <string name="dialogQuestion">Are you sure do you want to leave?</string>
     <string name="dialogNegative">No</string>
     <string name="dialogPositive">Yes</string>
-<<<<<<< Updated upstream:app/src/main/res/values/strings.xml
     <string name="title_activity_second">SecondActivity</string>
+    <string name="StartService">Start Services</string>
 </resources>
-=======
-</resources>
->>>>>>> Stashed changes:H2_Group_14/app/src/main/res/values/strings.xml
