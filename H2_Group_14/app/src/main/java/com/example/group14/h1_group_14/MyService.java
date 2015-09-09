@@ -9,8 +9,7 @@ import android.widget.Toast;
 
 public class MyService extends Service {
 
-    public static final boolean DEV_MODE = true;
-
+    public static final boolean DEV_MODE = false;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -18,51 +17,59 @@ public class MyService extends Service {
     }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
-        String phrase;
-        Intent in= new Intent(getBaseContext(),SecondActivity.class);
+        String phrase = intent.getStringExtra("phrase");
+        int time = Integer.parseInt(intent.getStringExtra("time"));
         // Let it continue running until it is stopped.
         if (DEV_MODE) Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         // We get the data
-        phrase = retrive_data(intent);
+        retrive_data(time,phrase);
+
         if (DEV_MODE) Toast.makeText(this, phrase, Toast.LENGTH_LONG).show();
         // Preparing to start activity two
-        in.putExtra("phrase",phrase);
-        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //Start Acitvity two
-        startActivity(in);
+
+
         // Stop Service
         stopSelf();
         return START_STICKY;
     }
 
-    private String retrive_data(final Intent intent){
+    private void retrive_data(final int time,final String phrase){
         Log.v("Service","Getting data");
         // Get the string
-        String phrase = intent.getStringExtra("phrase");
-        // Get time
-        int time = Integer.parseInt(intent.getStringExtra("time"));
-        Log.v("Service","Going to sleep");
-
         // Make sleep
         // Create for that iterates for time
-        for (int i=1;i<=time;i++) {
-            try {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Get time
                 Intent broadcast = new Intent();
-                // Sleep for one second
-                Thread.sleep(1000);
-                // Tell second
-                Log.v("Service","Time = " + i);
                 broadcast.setAction("miss_temps");
-                broadcast.putExtra("time", i);
                 sendBroadcast(broadcast);
+                Log.v("Service","Going to sleep");
+                for (int i=1;i<=time;i++) {
+                    try {
+                        // Sleep for one second
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    // Tell second
+                    Log.v("Service", "Time = " + i);
 
-            } catch (InterruptedException e) {
-                Log.v("Service", "Error when trying to sleep");
-                e.printStackTrace();
+
+                    broadcast.putExtra("temps", i);
+                    sendBroadcast(broadcast);
+                }
+                Intent in= new Intent(getBaseContext(),SecondActivity.class);
+                in.putExtra("phrase", phrase);
+                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //Start Acitvity two
+                startActivity(in);
             }
-        }
+        });
+        t.start();
         // Done
+        //while (t.isAlive());
         Log.v("Service", "Done");
-        return phrase;
     }
 }

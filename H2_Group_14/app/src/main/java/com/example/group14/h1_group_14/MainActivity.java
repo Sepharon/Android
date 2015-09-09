@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         IntentFilter filter = new IntentFilter("miss_temps");
-        this.registerReceiver(new UpdateReceiver(), filter);
+        this.registerReceiver(new MyReceiver(), filter);
 
 
         StartService = (Button) findViewById(R.id.button);
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
             //String temps = ; //
             Log.v("Activitat1", "sd");
-            Toast.makeText(MainActivity.this, intent.getIntExtra(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "sd", Toast.LENGTH_SHORT).show();
         }
     }
 
