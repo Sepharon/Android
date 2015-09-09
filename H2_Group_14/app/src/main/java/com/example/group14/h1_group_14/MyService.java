@@ -27,7 +27,7 @@ public class MyService extends Service {
         in.putExtra("phrase",phrase);
         //Start Acitvity two
         startActivity(in);
-        // Stop Service
+        // Stop Service dfdfdfd
         stopSelf();
         return START_STICKY;
     }
