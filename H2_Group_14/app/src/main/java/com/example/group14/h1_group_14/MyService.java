@@ -15,6 +15,7 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         String phrase;
+        Intent in= new Intent(getBaseContext(),ActivityTwo.class);
         // Let it continue running until it is stopped.
         Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         // We get the data
@@ -22,7 +23,10 @@ public class MyService extends Service {
         Toast.makeText(this, phrase, Toast.LENGTH_LONG).show();
 
         // TODO : FICAR QUE LES DADES VAGIN A UN INTENT
-
+        // Preparing to start activity two
+        in.putExtra("phrase",phrase);
+        //Start Acitvity two
+        startActivity(in);
         // Stop Service
         stopSelf();
         return START_STICKY;
