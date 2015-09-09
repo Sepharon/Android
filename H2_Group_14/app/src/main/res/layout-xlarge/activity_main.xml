@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="20sp"
         android:textColor="#ffffff"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="10dp" />
 
     <EditText
         android:id="@+id/textView1"
@@ -65,7 +65,7 @@
         android:layout_gravity="bottom"
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="5dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -75,7 +75,6 @@
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="75dp" />
+        android:layout_below="@+id/textView2" />
 
 </RelativeLayout>

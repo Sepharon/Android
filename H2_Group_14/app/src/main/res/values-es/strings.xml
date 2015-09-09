@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BackGroundAPP_Group_14</string>
+    <string name="aboutText">Ésta aplicación ha sido creada por el grupo 14.\nConsiste en implementar un servicio que se executa en la background por un tiempo en segundos  establecido en la Activitat A y, después de éste tiempo, el servicio reenvia el mensaje escrito en la Activitat A hacia la Activitat B.\nEl retardo no puede ser menor a 5 segundos ni mayor a 60 segundos.</string>
+    <string name="WriteSth">Escribe cualquier cosa</string>
+    <string name="action_about">Información</string>
+    <string name="action_settings">Opciones</string>
+    <string name="delay">Entra un retardo en segundos</string>
+    <string name="dialogNegative">No</string>
+    <string name="dialogPositive">Si</string>
+    <string name="dialogQuestion">¿Estas seguro de que quieres cerrar la aplicación?</string>
+    <string name="hello_world">¡Hola mundo!</string>
+</resources>
