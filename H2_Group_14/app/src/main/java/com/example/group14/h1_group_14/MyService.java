@@ -42,16 +42,18 @@ public class MyService extends Service {
         // Get time
         int time = Integer.parseInt(intent.getStringExtra("time"));
         Log.v("Service","Going to sleep");
-        Log.v("Service","Time = " + time);
+
         // Make sleep
         // Create for that iterates for time
-        for (int i=0;i<time;i++) {
+        for (int i=1;i<=time;i++) {
             try {
                 Intent broadcast = new Intent();
                 // Sleep for one second
                 Thread.sleep(1000);
                 // Tell second
-                broadcast.putExtra("time",i);
+                Log.v("Service","Time = " + i);
+                broadcast.setAction("miss_temps");
+                broadcast.putExtra("time", i);
                 sendBroadcast(broadcast);
 
             } catch (InterruptedException e) {
