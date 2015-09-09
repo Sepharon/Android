@@ -10,20 +10,40 @@
     tools:context=".MainActivity"
     android:background="#787878">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:text="@string/WriteSth"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="50dp" />
+
     <EditText
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="20sp"
-        android:hint="@string/WriteSth"
-        android:textColorHint="#ffffff"
         android:textColor="#ffffff"
         android:inputType="textCapSentences"
-        android:layout_marginTop="50dp" />
+        android:layout_below="@id/textView3"/>
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_alignParentTop="false"
+        android:textSize="20sp"
+        android:text="@string/delay"
+        android:textColor="#ffffff"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_vertical"
+        android:layout_below="@+id/textView1" />
 
     <EditText
         android:id="@+id/textView2"
@@ -33,12 +53,9 @@
         android:inputType="number"
         android:textColor="#ffffff"
         android:textSize="20sp"
-        android:hint="@string/delay"
-        android:textColorHint="#ffffff"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/textView4"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="30dp" />
+        android:layout_gravity="center_vertical" />
 
     <Button
         android:layout_width="78dp"
