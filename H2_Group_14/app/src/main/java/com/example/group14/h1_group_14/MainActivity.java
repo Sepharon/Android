@@ -22,15 +22,14 @@ public class MainActivity extends AppCompatActivity {
     Button Clean;
     EditText phrase;
     EditText time;
-    UpdateReceiver updateReceiver = new UpdateReceiver();
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        registerReceiver(updateReceiver, new IntentFilter("miss_temps"));
+        IntentFilter filter = new IntentFilter("miss_temps");
+        this.registerReceiver(new UpdateReceiver(), filter);
 
 
         StartService = (Button) findViewById(R.id.button);
@@ -121,13 +120,14 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private class UpdateReceiver extends BroadcastReceiver {
+    public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             //You do here like usual using intent
-            Log.v("Activitat1", "onreceive");
-            String temps = intent.getStringExtra("time"); //
-            Toast.makeText(MainActivity.this, temps, Toast.LENGTH_SHORT).show();
+
+            //String temps = ; //
+            Log.v("Activitat1", "sd");
+            Toast.makeText(MainActivity.this, intent.getIntExtra(), Toast.LENGTH_SHORT).show();
         }
     }
 
