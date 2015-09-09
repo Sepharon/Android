@@ -12,4 +12,5 @@
     <string name="dialogPositive">Yes</string>
     <string name="title_activity_second">SecondActivity</string>
     <string name="StartService">Start Services</string>
+    <string name="StringService">Start Services</string>
 </resources>
