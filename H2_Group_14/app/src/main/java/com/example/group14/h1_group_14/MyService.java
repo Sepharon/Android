@@ -47,12 +47,12 @@ public class MyService extends Service {
         // Create for that iterates for time
         for (int i=0;i<time;i++) {
             try {
-                //Intent broadcast = new Intent();
+                Intent broadcast = new Intent();
                 // Sleep for one second
                 Thread.sleep(1000);
                 // Tell second
-                intent.putExtra("time",i);
-                sendBroadcast(intent);
+                broadcast.putExtra("time",i);
+                sendBroadcast(broadcast);
 
             } catch (InterruptedException e) {
                 Log.v("Service", "Error when trying to sleep");
