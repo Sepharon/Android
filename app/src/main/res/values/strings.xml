@@ -10,4 +10,5 @@
     <string name="dialogQuestion">Are you sure do you want to leave?</string>
     <string name="dialogNegative">No</string>
     <string name="dialogPositive">Yes</string>
+    <string name="title_activity_second">SecondActivity</string>
 </resources>

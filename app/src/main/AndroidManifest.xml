@@ -26,12 +26,16 @@
             </intent-filter>
         </activity>
 
-
         <service
             android:name=".MyService"
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".SecondActivity"
+            android:label="@string/title_activity_second" >
+        </activity>
     </application>
 
 </manifest>
