@@ -21,10 +21,9 @@ public class MyService extends Service {
         // We get the data
         phrase = retrive_data(intent);
         Toast.makeText(this, phrase, Toast.LENGTH_LONG).show();
-
-        // TODO : FICAR QUE LES DADES VAGIN A UN INTENT
         // Preparing to start activity two
         in.putExtra("phrase",phrase);
+        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //Start Acitvity two
         startActivity(in);
         // Stop Service dfdfdfd
