@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">BackGroundAPP_Group_14</string>
     <string name="WriteSth">Escriu quelcom</string>
-    <string name="aboutText">Aquesta aplicació ha sigut creada pel grup 14.\nConsisteix en implementar un servei que s\'executa al background per un temps en segons  establert en l\'Activitat A i, després d\'aquest temps, el servei reenvia el missatge escrit en l\'Activitat A cap a l\'Activitat B.\nEl retard no pot se menor a 5 segons ni major a 60 segons.</string>
+    <string name="aboutText">Aquesta aplicació ha sigut creada pel grup 14.\nConsisteix en implementar un servei que s\'executa al background per un temps en segons  establert en l\'Activitat A i, després d\'aquest temps, el servei reenvia el missatge escrit en l\'Activitat A cap a l\'Activitat B.\nEl retard no pot ser menor a 5 segons ni major a 60 segons.</string>
     <string name="action_about">Informació</string>
     <string name="action_settings">Opcions</string>
     <string name="delay">Entra un retard en segons</string>
