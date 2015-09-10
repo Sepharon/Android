@@ -17,31 +17,29 @@ public class MyService extends Service {
     }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
+        // Retrieve phrase and time
         String phrase = intent.getStringExtra("phrase");
         int time = Integer.parseInt(intent.getStringExtra("time"));
-        // Let it continue running until it is stopped.
+
         if (DEV_MODE) Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
-        // We get the data
-        retrive_data(time,phrase);
+        // Make time wait
+        wait_time(time,phrase);
 
-        if (DEV_MODE) Toast.makeText(this, phrase, Toast.LENGTH_LONG).show();
-        // Preparing to start activity two
-
+        if (DEV_MODE) Toast.makeText(this, "Service Stopping", Toast.LENGTH_LONG).show();
 
         // Stop Service
         stopSelf();
         return START_STICKY;
     }
 
-    private void retrive_data(final int time,final String phrase){
+    private void wait_time(final int time,final String phrase){
         Log.v("Service","Getting data");
-        // Get the string
         // Make sleep
-        // Create for that iterates for time
+        // Create for that iterates for time times
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Get time
+                // Create Broadcast
                 Intent broadcast = new Intent();
                 broadcast.setAction("miss_temps");
                 sendBroadcast(broadcast);
@@ -55,11 +53,10 @@ public class MyService extends Service {
                     }
                     // Tell second
                     Log.v("Service", "Time = " + i);
-
-
                     broadcast.putExtra("temps", i);
                     sendBroadcast(broadcast);
                 }
+                // Once time has passed, start Activity Two
                 Intent in= new Intent(getBaseContext(),SecondActivity.class);
                 in.putExtra("phrase", phrase);
                 in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -69,7 +66,6 @@ public class MyService extends Service {
         });
         t.start();
         // Done
-        //while (t.isAlive());
         Log.v("Service", "Done");
     }
 }
