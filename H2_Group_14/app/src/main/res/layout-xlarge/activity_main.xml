@@ -16,7 +16,7 @@
         android:text="@string/WriteSth"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="35dp"
+        android:textSize="35sp"
         android:textColor="#ffffff"
         android:layout_marginTop="50dp" />
 
@@ -25,8 +25,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
+        android:hint="    "
         android:layout_centerHorizontal="true"
-        android:textSize="35dp"
+        android:textSize="35sp"
         android:textColor="#ffffff"
         android:inputType="textCapSentences"
         android:layout_below="@id/textView3"
@@ -38,7 +39,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView4"
         android:layout_alignParentTop="false"
-        android:textSize="35dp"
+        android:textSize="35sp"
         android:text="@string/delay"
         android:textColor="#ffffff"
         android:layout_centerHorizontal="true"
@@ -53,7 +54,8 @@
         android:text=""
         android:inputType="number"
         android:textColor="#ffffff"
-        android:textSize="35dp"
+        android:textSize="35sp"
+        android:hint="    "
         android:layout_below="@+id/textView4"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_vertical"
@@ -73,12 +75,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button"
-        android:text="Start Services"
+        android:text="@string/StartService"
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/count_down"
-        android:textSize="35dp"
+        android:textSize="35sp"
         android:layout_marginTop="30dp" />
 
     <TextView
