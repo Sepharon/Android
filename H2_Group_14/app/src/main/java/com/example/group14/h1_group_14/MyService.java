@@ -44,7 +44,7 @@ public class MyService extends Service {
                 broadcast.setAction("miss_temps");
                 sendBroadcast(broadcast);
                 Log.v("Service","Going to sleep");
-                for (int i=1;i<=time;i++) {
+                for (int i=(time-1);i>=0;i--) {
                     try {
                         // Sleep for one second
                         Thread.sleep(1000);
@@ -57,6 +57,8 @@ public class MyService extends Service {
                         e.printStackTrace();
                     }
                 }
+                broadcast.putExtra("done",0);
+                sendBroadcast(broadcast);
                 // Once time has passed, start Activity Two
                 Intent in= new Intent(getBaseContext(),SecondActivity.class);
                 in.putExtra("phrase", phrase);

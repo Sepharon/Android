@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -25,9 +26,11 @@ public class MainActivity extends AppCompatActivity {
     Button Clean;
     EditText phrase;
     EditText time;
+    TextView countdown;
 
     ProgressBar mProgress;
     private int mProgressStatus = 0;
+    private int max_time;
     private Handler mHandler = new Handler();
     float finalValue;
 
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter filter = new IntentFilter("miss_temps");
         this.registerReceiver(new MyReceiver(), filter);
-
+/*
 
         mProgress = (ProgressBar) findViewById(R.id.progress_bar);
         new Thread(new Runnable() {
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
-
+*/
         StartService = (Button) findViewById(R.id.button);
         Clean = (Button) findViewById(R.id.button2);
         phrase = (EditText) findViewById(R.id.textView1);
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String delay = time.getText().toString();
+                max_time = Integer.parseInt(delay);
                 String phr = phrase.getText().toString();
                 if (delay.matches("") || phr.matches("")) {
                     Toast.makeText(MainActivity.this, "Please fill in all the fields", Toast.LENGTH_SHORT).show();
@@ -147,16 +151,22 @@ public class MainActivity extends AppCompatActivity {
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            mProgressStatus = intent.getIntExtra("temps", max_time);
+            countdown = (TextView) findViewById(R.id.count_down);
+            Log.v("Activitat1", "" + mProgressStatus);
+            if (mProgressStatus != 0) countdown.setText("" + mProgressStatus);
+
+            else countdown.setText(" ");
+/*
             //You do here like usual using intent
             time = (EditText) findViewById(R.id.textView2);
             String delay = time.getText().toString();
             finalValue=(float)Integer.parseInt(delay);
 
-            mProgressStatus = intent.getIntExtra("temps", 0);
-            mProgressStatus=(int)((float)((mProgressStatus/finalValue)*100.0));
             Log.v("Activitat1", "" + mProgressStatus);
+            mProgressStatus=(int)((float)((mProgressStatus/finalValue)*100.0));
+*/
 
         }
     }
-
 }
