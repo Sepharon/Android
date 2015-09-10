@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
+        android:hint="    "
         android:layout_centerHorizontal="true"
         android:textSize="20sp"
         android:textColor="#ffffff"
@@ -51,6 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
+        android:hint="    "
         android:inputType="number"
         android:textColor="#ffffff"
         android:textSize="20sp"
@@ -79,15 +81,12 @@
         android:layout_below="@+id/textView2"
         android:layout_marginTop="75dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/time"
-        android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3"
-        android:layout_alignRight="@+id/textView3"
-        android:layout_alignEnd="@+id/textView3" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:id="@+id/progressBar"
+        android:layout_below="@+id/time"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

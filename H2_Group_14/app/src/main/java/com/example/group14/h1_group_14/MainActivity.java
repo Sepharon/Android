@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -15,13 +16,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity {
     Button StartService;
     Button Clean;
     EditText phrase;
     EditText time;
+    TextView time2;
+    ProgressBar mProgress;
+    int mProgressStatus=0;
+    private Handler mHandler = new Handler();
 
 
     @Override
@@ -127,7 +135,18 @@ public class MainActivity extends AppCompatActivity {
 
             //String temps = ; //
             Log.v("Activitat1", "sd");
-            //Toast.makeText(MainActivity.this, "sd", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, time, Toast.LENGTH_SHORT).show();
+
+            /**while (mProgressStatus < 100) {
+                mProgressStatus = Integer.parseInt(intent.getStringExtra("temps"));
+
+                // Update the progress bar
+                mHandler.post(new Runnable() {
+                    public void run() {
+                        mProgress.setProgress(mProgressStatus);
+                    }
+                });
+            }*/
         }
     }
 

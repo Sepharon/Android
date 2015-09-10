@@ -27,6 +27,7 @@
             </intent-filter>
         </activity>
 
+
         <service
             android:name=".MyService"
             android:enabled="true"
