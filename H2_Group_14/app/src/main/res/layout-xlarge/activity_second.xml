@@ -16,6 +16,6 @@
         android:clickable="false"
         android:id="@+id/newText"
         android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:textSize="35sp" />
 
 </RelativeLayout>
