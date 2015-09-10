@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     Button Clean;
     EditText phrase;
     EditText time;
-    TextView time2;
+
     ProgressBar mProgress;
     int mProgressStatus=0;
     private Handler mHandler = new Handler();
@@ -132,19 +132,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             //You do here like usual using intent
+            String timer;
+            final int finalValue;
+            time = (EditText) findViewById(R.id.textView2);
+            timer = time.getText().toString();
+            finalValue=Integer.parseInt(timer);
 
             mProgressStatus = intent.getIntExtra("temps",0);
             Log.v("Activitat1", "" + mProgressStatus);
-            //Toast.makeText(MainActivity.this, "adasdsa", Toast.LENGTH_SHORT).show();
-            /*
-            while (mProgressStatus < 100) {
+            while ((mProgressStatus/finalValue)*100 < 100) {
                 // Update the progress bar
                 mHandler.post(new Runnable() {
                     public void run() {
-                        mProgress.setProgress(mProgressStatus);
+                        mProgress.setProgress((mProgressStatus/finalValue)*100);
                     }
                 });
-            }*/
+            }
         }
     }
 
