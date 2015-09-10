@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     float finalValue;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,17 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         mProgress = (ProgressBar) findViewById(R.id.progress_bar);
-
         new Thread(new Runnable() {
             public void run() {
                 while (mProgressStatus < 100) {
-
-                    //mProgressStatus=doWork();
-                    //mProgressStatus=(int)((float)(mProgressStatus/5.0))*100;
-                    //Log.v("Progress", ""+mProgressStatus);
                     // Update the progress bar
                     mHandler.post(new Runnable() {
                         public void run() {
+                            Log.v("Progress", ""+mProgressStatus);
                             mProgress.setProgress(mProgressStatus);
                         }
                     });
@@ -160,26 +157,6 @@ public class MainActivity extends AppCompatActivity {
             Log.v("Activitat1", "" + mProgressStatus);
 
         }
-    }
-
-    protected void onResume(){
-        super.onResume();
-        if (mProgress.getProgress()!=0){
-            mProgress.setProgress(0);
-        }
-        Log.v("resume", "onResume");
-        new Thread(new Runnable() {
-            public void run() {
-                while (mProgressStatus < 100) {
-                    // Update the progress bar
-                    mHandler.post(new Runnable() {
-                        public void run() {
-                            mProgress.setProgress(mProgressStatus);
-                        }
-                    });
-                }
-            }
-        }).start();
     }
 
 }
