@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -28,17 +27,37 @@ public class MainActivity extends AppCompatActivity {
     EditText time;
 
     ProgressBar mProgress;
-    int mProgressStatus=0;
+    private int mProgressStatus = 0;
     private Handler mHandler = new Handler();
-
+    float finalValue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         IntentFilter filter = new IntentFilter("miss_temps");
         this.registerReceiver(new MyReceiver(), filter);
 
+
+        mProgress = (ProgressBar) findViewById(R.id.progress_bar);
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (mProgressStatus < 100) {
+
+                    //mProgressStatus=doWork();
+                    //mProgressStatus=(int)((float)(mProgressStatus/5.0))*100;
+                    //Log.v("Progress", ""+mProgressStatus);
+                    // Update the progress bar
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            mProgress.setProgress(mProgressStatus);
+                        }
+                    });
+                }
+            }
+        }).start();
 
         StartService = (Button) findViewById(R.id.button);
         Clean = (Button) findViewById(R.id.button2);
@@ -132,23 +151,35 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             //You do here like usual using intent
-            String timer;
-            final int finalValue;
             time = (EditText) findViewById(R.id.textView2);
-            timer = time.getText().toString();
-            finalValue=Integer.parseInt(timer);
+            String delay = time.getText().toString();
+            finalValue=(float)Integer.parseInt(delay);
 
-            mProgressStatus = intent.getIntExtra("temps",0);
+            mProgressStatus = intent.getIntExtra("temps", 0);
+            mProgressStatus=(int)((float)((mProgressStatus/finalValue)*100.0));
             Log.v("Activitat1", "" + mProgressStatus);
-            while ((mProgressStatus/finalValue)*100 < 100) {
-                // Update the progress bar
-                mHandler.post(new Runnable() {
-                    public void run() {
-                        mProgress.setProgress((mProgressStatus/finalValue)*100);
-                    }
-                });
-            }
+
         }
+    }
+
+    protected void onResume(){
+        super.onResume();
+        if (mProgress.getProgress()!=0){
+            mProgress.setProgress(0);
+        }
+        Log.v("resume", "onResume");
+        new Thread(new Runnable() {
+            public void run() {
+                while (mProgressStatus < 100) {
+                    // Update the progress bar
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            mProgress.setProgress(mProgressStatus);
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 }
