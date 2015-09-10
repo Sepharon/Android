@@ -48,13 +48,14 @@ public class MyService extends Service {
                     try {
                         // Sleep for one second
                         Thread.sleep(1000);
+                        // Tell second
+                        Log.v("Service", "Time = " + i);
+                        broadcast.putExtra("temps", i);
+                        sendBroadcast(broadcast);
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    // Tell second
-                    Log.v("Service", "Time = " + i);
-                    broadcast.putExtra("temps", i);
-                    sendBroadcast(broadcast);
                 }
                 // Once time has passed, start Activity Two
                 Intent in= new Intent(getBaseContext(),SecondActivity.class);

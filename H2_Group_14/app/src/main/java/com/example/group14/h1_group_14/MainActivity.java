@@ -133,13 +133,11 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             //You do here like usual using intent
 
-            //String temps = ; //
-            Log.v("Activitat1", "sd");
-            //Toast.makeText(MainActivity.this, time, Toast.LENGTH_SHORT).show();
-
-            /**while (mProgressStatus < 100) {
-                mProgressStatus = Integer.parseInt(intent.getStringExtra("temps"));
-
+            mProgressStatus = intent.getIntExtra("temps",0);
+            Log.v("Activitat1", "" + mProgressStatus);
+            //Toast.makeText(MainActivity.this, "adasdsa", Toast.LENGTH_SHORT).show();
+            /*
+            while (mProgressStatus < 100) {
                 // Update the progress bar
                 mHandler.post(new Runnable() {
                     public void run() {
