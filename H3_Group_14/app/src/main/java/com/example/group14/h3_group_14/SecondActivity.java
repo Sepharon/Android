@@ -1,9 +1,13 @@
 package com.example.group14.h3_group_14;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -11,6 +15,36 @@ public class SecondActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
+
+        final EditText edNote = (EditText) findViewById(R.id.edText);
+
+        Button btCancel = (Button)findViewById(R.id.btCancel);
+        btCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent1 = new Intent();
+                SecondActivity.this.setResult(0, intent1);
+                SecondActivity.this.finish();
+
+            }
+        });
+
+        Button btOk = (Button)findViewById(R.id.btOk);
+
+        btOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String note = edNote.getText().toString();
+                Intent intent2 = new Intent();
+                intent2.putExtra("text", note);
+                SecondActivity.this.setResult(0, intent2);
+                SecondActivity.this.finish();
+
+
+            }
+        });
     }
 
     @Override
