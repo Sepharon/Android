@@ -23,8 +23,8 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent1 = new Intent();
-                SecondActivity.this.setResult(0, intent1);
+                Intent intent0 = new Intent();
+                SecondActivity.this.setResult(0, intent0);
                 SecondActivity.this.finish();
 
             }
@@ -37,9 +37,9 @@ public class SecondActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String note = edNote.getText().toString();
-                Intent intent2 = new Intent();
-                intent2.putExtra("text", note);
-                SecondActivity.this.setResult(0, intent2);
+                Intent intent1 = new Intent();
+                intent1.putExtra("note", note);
+                SecondActivity.this.setResult(0, intent1);
                 SecondActivity.this.finish();
 
 
