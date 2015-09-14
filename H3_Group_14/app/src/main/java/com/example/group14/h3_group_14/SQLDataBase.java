@@ -83,14 +83,28 @@ public class SQLDataBase extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        int affected_rows;
+
+        switch (uriMatcher.match(uri)){
+            case SINGLE_ROW:
+                String last_id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) affected_rows = db.delete(TABLE_NAME,id + "=" + last_id,null);
+                else affected_rows = db.delete(TABLE_NAME,id + "=" + last_id + " and " + selection,selectionArgs);
+                break;
+            case ALL_ROWS:
+                affected_rows = db.delete(DATABASE_NAME,selection,selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI " + uri );
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return affected_rows;
     }
 
     @Override
     public String getType(Uri uri) {
-        // TODO: Implement this to handle requests for the MIME type of the data
-        // at the given URI.
-        throw new UnsupportedOperationException("Not yet implemented");
+        // Crec que aqui no va re....
+        return null;
     }
 
     @Override
