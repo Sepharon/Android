@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import org.apache.http.conn.ConnectTimeoutException;
+
+import java.io.File;
 import java.util.HashMap;
 
 
@@ -18,7 +21,8 @@ public class SQLDataBase extends ContentProvider {
     static final String BASE = "db";
     static final String URL = "content://" + PROVIDER_NAME + "/" +BASE;
     static final Uri CONTENT_URI = Uri.parse("content://" + URL);
-    static final int uriCode = 1;
+    static final int ALL_ROWS = 1;
+    static final int SINGLE_ROW = 2;
     static final UriMatcher uriMatcher;
 
 
@@ -26,8 +30,8 @@ public class SQLDataBase extends ContentProvider {
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(PROVIDER_NAME,BASE,uriCode);
-        uriMatcher.addURI(PROVIDER_NAME,BASE+"/*",uriCode);
+        uriMatcher.addURI(PROVIDER_NAME,BASE,ALL_ROWS);
+        uriMatcher.addURI(PROVIDER_NAME,BASE+"/#",SINGLE_ROW);
     }
 
 
@@ -41,7 +45,7 @@ public class SQLDataBase extends ContentProvider {
         private SQLiteDatabase db;
         static final String DATABASE_NAME = "db";
         static final String TABLE_NAME = "notes";
-        static final int DATABASE_VERSION = 1;
+        static int DATABASE_VERSION = 1;
         static final String CREATE_DB_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + id +" INTEGER PRIMARY KEY, "+ NoteText + " TEXT NOT NULL, "
 + DateTime + " TEXT NOT NULL);";
 
@@ -50,12 +54,19 @@ public class SQLDataBase extends ContentProvider {
         }
 
         @Override
-        public void OnCreate(SQLDataBase){
+        public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_DB_TABLE);
         }
 
         @Override
-        public void onUpgrade ()
+        public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion){
+            if (oldVersion == DATABASE_VERSION) {
+                db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+                onCreate(db);
+                DATABASE_VERSION = newVersion;
+            }
+        }
+
     }
 
     public SQLDataBase() {
@@ -82,8 +93,12 @@ public class SQLDataBase extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        // TODO: Implement this to initialize your content provider on startup.
-        return false;
+        Context context = getContext();
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+
+        File dbFile = context.getDatabasePath(DATABASE_NAME)
+
+
     }
 
     @Override
