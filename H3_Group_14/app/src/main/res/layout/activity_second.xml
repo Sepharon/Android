@@ -4,7 +4,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.group14.h3_group_14.SecondActivity">
+    tools:context="com.example.group14.h3_group_14.SecondActivity"
+    android:background="@android:color/holo_green_dark">
 
     <Button
         android:layout_width="wrap_content"

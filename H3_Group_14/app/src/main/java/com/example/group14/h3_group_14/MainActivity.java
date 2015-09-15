@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent3, 0);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int reqCode, int resCode, Intent receive) {
+
+        TextView txtNote = (TextView) findViewById(R.id.txtNote);
+        txtNote.setText(receive.getCharSequenceExtra("note"));
     }
 
     @Override
