@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -18,6 +19,7 @@ public class SecondActivity extends AppCompatActivity {
 
         final EditText edNote = (EditText) findViewById(R.id.edText);
 
+        // When cancel button is pressed, second activity is finished without sending anything; Code similar from Hand In 1
         Button btCancel = (Button)findViewById(R.id.btCancel);
         btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +32,7 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
 
+        // When OK button is pressed, if there isn't any text a toast appears, if there is, second activity is finished sending the text from the Edit Text to main activity; Code similar from Hand In 1
         Button btOk = (Button)findViewById(R.id.btOk);
 
         btOk.setOnClickListener(new View.OnClickListener() {
@@ -37,10 +40,17 @@ public class SecondActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String note = edNote.getText().toString();
-                Intent intent1 = new Intent();
-                intent1.putExtra("note", note);
-                SecondActivity.this.setResult(0, intent1);
-                SecondActivity.this.finish();
+                if(note.equals("")){
+
+                    Toast toast = Toast.makeText(SecondActivity.this, R.string.toast  , Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Intent intent1 = new Intent();
+                    intent1.putExtra("note", note);
+                    SecondActivity.this.setResult(0, intent1);
+                    SecondActivity.this.finish();
+                }
 
 
             }

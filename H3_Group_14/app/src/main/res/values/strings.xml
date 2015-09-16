@@ -11,4 +11,5 @@
     <string name="b_ok">OK</string>
     <string name="b_cancel">Cancel</string>
     <string name="title_activity_third" translatable="false">NoteAPP_Group_14</string>
+    <string name="toast">Write a note before clicking OK!</string>
 </resources>

@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         Button btNote = (Button)findViewById(R.id.btNote);
         Button btShow = (Button)findViewById(R.id.btDatabase);
 
-        // When the button is pressed, second activity is started
+        // When the button is pressed, second activity is started; Code similar from Hand In 1
         btNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // When the button is pressed, third activity is started; Code similar from Hand In 1
         btShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    // Receive the data from second activity when this is finished; Code similar from Hand In 1
     @Override
     protected void onActivityResult(int reqCode, int resCode, Intent receive) {
 
