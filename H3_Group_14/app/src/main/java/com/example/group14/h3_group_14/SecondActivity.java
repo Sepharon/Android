@@ -3,6 +3,8 @@ package com.example.group14.h3_group_14;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,25 +34,45 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
 
-        // When OK button is pressed, if there isn't any text a toast appears, if there is, second activity is finished sending the text from the Edit Text to main activity; Code similar from Hand In 1
-        Button btOk = (Button)findViewById(R.id.btOk);
 
+        final Button btOk = (Button)findViewById(R.id.btOk);
+
+        // When text from the Edit Text changes and it isn't null, Button OK is enabled.
+
+        edNote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(edNote.getText().toString().equals("")) {
+                    btOk.setEnabled(false);
+                }
+                else {
+                    btOk.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+        // When OK button is pressed, second activity is finished sending the text from the Edit Text to main activity; Code similar from Hand In 1
         btOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String note = edNote.getText().toString();
-                if(note.equals("")){
+                Intent intent1 = new Intent();
+                intent1.putExtra("note", note);
+                SecondActivity.this.setResult(0, intent1);
+                SecondActivity.this.finish();
 
-                    Toast toast = Toast.makeText(SecondActivity.this, R.string.toast  , Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else {
-                    Intent intent1 = new Intent();
-                    intent1.putExtra("note", note);
-                    SecondActivity.this.setResult(0, intent1);
-                    SecondActivity.this.finish();
-                }
 
 
             }
