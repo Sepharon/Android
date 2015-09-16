@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.group14.h3_group_14" >
-
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY">
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY">
+    </uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,12 +20,15 @@
             </intent-filter>
         </activity>
 
+
+
         <provider
             android:name=".SQLDataBase"
-            android:authorities="mycontentprovider"
+            android:authorities="com.example.group14.provider.Notes"
             android:enabled="true"
             android:exported="true" >
         </provider>
+
 
         <activity
             android:name=".SecondActivity"
@@ -32,6 +38,7 @@
             android:name=".ThirdActivity"
             android:label="@string/title_activity_third" >
         </activity>
+
     </application>
 
 </manifest>

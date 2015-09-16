@@ -1,16 +1,24 @@
 package com.example.group14.h3_group_14;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.UserDictionary;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ThirdActivity extends AppCompatActivity {
+    SQLDataBase db = new SQLDataBase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
+        getAllEntries();
+
     }
 
     @Override
@@ -19,6 +27,20 @@ public class ThirdActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_third, menu);
         return true;
     }
+
+    public void getAllEntries () {
+        // Retrieve student records
+        String URL = "content://com.example.group14.provider.Notes/db";
+
+        Uri notesText = Uri.parse(URL);
+        Cursor c = managedQuery(notesText, null, null, null, null);
+        if (c.moveToFirst()) {
+            do {
+                Toast.makeText(this, c.getString(c.getColumnIndexOrThrow("_id"))+c.getString(c.getColumnIndexOrThrow("NoteText"))+c.getString(c.getColumnIndexOrThrow("DateTime")),Toast.LENGTH_SHORT).show();
+            } while (c.moveToNext());
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

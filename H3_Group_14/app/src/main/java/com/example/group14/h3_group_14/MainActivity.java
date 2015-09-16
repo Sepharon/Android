@@ -1,6 +1,8 @@
 package com.example.group14.h3_group_14;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,16 +10,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btNote = (Button)findViewById(R.id.btNote);
-        Button btShow = (Button)findViewById(R.id.btDatabase);
+
+        Button btNote = (Button) findViewById(R.id.btNote);
+        Button btShow = (Button) findViewById(R.id.btDatabase);
 
         // When the button is pressed, second activity is started; Code similar from Hand In 1
         btNote.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         btShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent3 = new Intent(MainActivity.this, ThirdActivity.class);
                 startActivityForResult(intent3, 0);
             }
@@ -42,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     // Receive the data from second activity when this is finished; Code similar from Hand In 1
     @Override
     protected void onActivityResult(int reqCode, int resCode, Intent receive) {
-
         TextView txtNote = (TextView) findViewById(R.id.txtNote);
         txtNote.setText(receive.getCharSequenceExtra("note"));
     }
@@ -68,4 +74,35 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void btSave(View view){
+        ContentValues values = new ContentValues();
+        TextView txtNote = (TextView) findViewById(R.id.txtNote);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String ts = sdf.format(new Date());
+        String val = txtNote.getText().toString();
+
+        values.put(SQLDataBase.NOTE, val);
+        values.put(SQLDataBase.DATETIME, ts);
+
+        Uri uri = getContentResolver().insert(SQLDataBase.CONTENT_URI, values);
+        Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    /*public void onClick(View view) {
+
+        String URL = "content://com.example.group14.provider.Notes/db";
+
+        Uri notesText = Uri.parse(URL);
+        Cursor c = managedQuery(notesText, null, null, null, null);
+        if (c.moveToFirst()) {
+            do {
+                Toast.makeText(this, c.getString(c.getColumnIndexOrThrow("_id"))+c.getString(c.getColumnIndexOrThrow("NoteText"))+c.getString(c.getColumnIndexOrThrow("DateTime")),Toast.LENGTH_SHORT).show();
+            } while (c.moveToNext());
+        }
+
+    }*/
+
+
 }
