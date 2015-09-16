@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent3 = new Intent(MainActivity.this, ThirdActivity.class);
-                startActivityForResult(intent3, 0);
+                startActivityForResult(intent3, 1);
             }
         });
     }
@@ -49,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
     // Receive the data from second activity when this is finished; Code similar from Hand In 1
     @Override
     protected void onActivityResult(int reqCode, int resCode, Intent receive) {
-        TextView txtNote = (TextView) findViewById(R.id.txtNote);
-        txtNote.setText(receive.getCharSequenceExtra("note"));
+        if (reqCode == 0) {
+            TextView txtNote = (TextView) findViewById(R.id.txtNote);
+            txtNote.setText(receive.getCharSequenceExtra("note"));
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.group14.h3_group_14;
 
+import android.app.ListActivity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,18 +9,37 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class ThirdActivity extends AppCompatActivity {
-    SQLDataBase db = new SQLDataBase();
+/**Source:
+ * http://www.vogella.com/tutorials/AndroidListView/article.html
+ */
+
+public class ThirdActivity extends ListActivity {
+    private SQLDataBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_third);
-        getAllEntries();
+        String[] values = new String[] { getAllEntries() };
+        // use your custom layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.activity_third, R.id.listView, values);
+        setListAdapter(adapter);
+
 
     }
+
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        String item = (String) getListAdapter().getItem(position);
+        Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -28,7 +48,7 @@ public class ThirdActivity extends AppCompatActivity {
         return true;
     }
 
-    public void getAllEntries () {
+    public String getAllEntries () {
         // Retrieve student records
         String URL = "content://com.example.group14.provider.Notes/db";
 
@@ -36,9 +56,10 @@ public class ThirdActivity extends AppCompatActivity {
         Cursor c = managedQuery(notesText, null, null, null, null);
         if (c.moveToFirst()) {
             do {
-                Toast.makeText(this, c.getString(c.getColumnIndexOrThrow("_id"))+c.getString(c.getColumnIndexOrThrow("NoteText"))+c.getString(c.getColumnIndexOrThrow("DateTime")),Toast.LENGTH_SHORT).show();
+                return c.getString(c.getColumnIndexOrThrow("NoteText"))+c.getString(c.getColumnIndexOrThrow("DateTime"));
             } while (c.moveToNext());
         }
+        return c.getString(c.getColumnIndexOrThrow("NoteText"))+c.getString(c.getColumnIndexOrThrow("DateTime"));
     }
 
 
