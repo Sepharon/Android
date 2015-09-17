@@ -13,6 +13,7 @@
         android:text="@string/hello_world"
         android:id="@+id/txtNote"
         android:textSize="25sp"
+        android:freezesText="true"
         android:layout_above="@+id/btNote"
         android:layout_centerHorizontal="true" />
 

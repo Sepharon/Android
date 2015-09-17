@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void btSave(View view){
+        //sñdkjfhsadufsaspdhashudhuadshudas
         ContentValues values = new ContentValues();
         TextView txtNote = (TextView) findViewById(R.id.txtNote);
 

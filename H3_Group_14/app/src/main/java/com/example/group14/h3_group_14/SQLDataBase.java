@@ -18,6 +18,14 @@ import java.util.HashMap;
 import java.util.Objects;
 
 
+/*
+    REFERENCE :
+    http://www.tutorialspoint.com/android/android_content_providers.htm
+    http://www.vogella.com/tutorials/AndroidSQLite/article.html
+    http://developer.android.com/guide/topics/providers/content-provider-basics.html
+
+*/
+
 public class SQLDataBase extends ContentProvider {
     // Creating Uri
     static final String PROVIDER_NAME = "com.example.group14.provider.Notes";
@@ -81,7 +89,7 @@ public class SQLDataBase extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Implement this to handle requests to delete one or more rows.
-        int affected_rows=0;
+        int affected_rows;
 
         switch (uriMatcher.match(uri)){
             case SINGLE_ROW:
@@ -163,7 +171,7 @@ public class SQLDataBase extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        int affected_rows=0;
+        int affected_rows;
 
         switch (uriMatcher.match(uri)){
             case SINGLE_ROW:
