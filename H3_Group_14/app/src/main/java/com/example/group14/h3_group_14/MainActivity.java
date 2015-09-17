@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(SQLDataBase.DATETIME, ts);
 
         Uri uri = getContentResolver().insert(SQLDataBase.CONTENT_URI, values);
-        Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 
     /*public void onClick(View view) {
