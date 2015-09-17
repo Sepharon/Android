@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.UserDictionary;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,9 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**Source:
  * http://www.vogella.com/tutorials/AndroidListView/article.html
  */
@@ -23,13 +27,18 @@ import android.widget.Toast;
 public class ThirdActivity extends ListActivity {
     private SQLDataBase db;
 
+    ListView listView;
+    List<String> list = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String[] values = new String[] { getAllEntries() };
+        getAllEntries();
+        Log.v("List", ""+list);
+
         // use your custom layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.activity_third, R.id.listView, values);
+                R.layout.activity_third, R.id.listView, list);
         setListAdapter(adapter);
 
 
@@ -48,7 +57,7 @@ public class ThirdActivity extends ListActivity {
         return true;
     }
 
-    public String getAllEntries () {
+    public List getAllEntries () {
         // Retrieve student records
         String URL = "content://com.example.group14.provider.Notes/db";
 
@@ -56,10 +65,11 @@ public class ThirdActivity extends ListActivity {
         Cursor c = managedQuery(notesText, null, null, null, null);
         if (c.moveToFirst()) {
             do {
-                return c.getString(c.getColumnIndexOrThrow("NoteText"))+c.getString(c.getColumnIndexOrThrow("DateTime"));
+                list.add("Content: "+c.getString(c.getColumnIndexOrThrow("NoteText"))+"\nDate: " + c.getString(c.getColumnIndexOrThrow("DateTime")));
             } while (c.moveToNext());
         }
-        return c.getString(c.getColumnIndexOrThrow("NoteText"))+c.getString(c.getColumnIndexOrThrow("DateTime"));
+        Log.v("List1", ""+list);
+        return list;
     }
 
 
