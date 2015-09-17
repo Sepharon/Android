@@ -1,7 +1,10 @@
 package com.example.group14.h3_group_14;
 
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,7 +32,7 @@ public class ThirdActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getAllEntries();
-        Log.v("List", ""+list);
+        Log.v("List", "" + list);
 
         // use your custom layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -40,8 +43,39 @@ public class ThirdActivity extends ListActivity {
     }
 
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        String item = (String) getListAdapter().getItem(position);
-        Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
+        final String item = (String) getListAdapter().getItem(position);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are you sure you want to delete this note?");
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+
+                //Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
+                String[] parts = item.split("\n");
+                String[] note = parts[1].split(": ");
+                //Toast.makeText(this, note[1], Toast.LENGTH_LONG).show();
+                String[] args = new String[] {note[1]};
+                getContentResolver().delete(SQLDataBase.CONTENT_URI, "DateTime=?", args);
+                reload();
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //finish();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+    }
+
+    public void reload(){
+        Intent reload = new Intent(ThirdActivity.this, ThirdActivity.class);
+        startActivity(reload);
+        this.finish();
     }
 
 
