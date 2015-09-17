@@ -46,8 +46,8 @@ public class ThirdActivity extends ListActivity {
         final String item = (String) getListAdapter().getItem(position);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Are you sure you want to delete this note?");
-        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setMessage(getApplicationContext().getResources().getString(R.string.question));
+        alertDialogBuilder.setPositiveButton(getApplication().getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
 
