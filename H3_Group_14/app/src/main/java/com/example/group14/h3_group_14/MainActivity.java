@@ -51,9 +51,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int reqCode, int resCode, Intent receive) {
         if (reqCode == 0) {
-            TextView txtNote = (TextView) findViewById(R.id.txtNote);
-            txtNote.setText(receive.getCharSequenceExtra("note"));
-            txt = txtNote.toString();
+            try {
+                TextView txtNote = (TextView) findViewById(R.id.txtNote);
+                txtNote.setText(receive.getCharSequenceExtra("note"));
+                txt = txtNote.toString();
+
+            }
+            catch ( java.lang.RuntimeException e){
+                e.printStackTrace();
+            }
+
         }
     }
 

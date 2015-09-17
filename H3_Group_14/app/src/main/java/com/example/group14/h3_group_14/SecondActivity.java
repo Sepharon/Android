@@ -66,8 +66,9 @@ public class SecondActivity extends AppCompatActivity {
         btOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String note = edNote.getText().toString();
+                String note;
+                if  (edNote.getText()==null) note = "" ;
+                else note = edNote.getText().toString();
                 Intent intent1 = new Intent();
                 intent1.putExtra("note", note);
                 SecondActivity.this.setResult(0, intent1);
