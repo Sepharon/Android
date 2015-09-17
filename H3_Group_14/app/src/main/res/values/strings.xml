@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">NoteAPP_Group_14</string>
 
     <string name="hello_world">(Last created note will appear here!)</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">About</string>
     <string name="b_note">New Note</string>
     <string name="b_save">Save Note</string>
     <string name="b_database">Show Saved Notes</string>
@@ -12,4 +12,6 @@
     <string name="b_cancel">Cancel</string>
     <string name="title_activity_third" translatable="false">NoteAPP_Group_14</string>
     <string name="toast">Write a note before clicking OK!</string>
+    <string name="title_activity_about" translatable="false">NoteAPP_Group_14</string>
+    <string name="about_text">This application was made by group 14.\nIt consists in storing data in a SQLite database that is written by the user.\nThen the user can access this data and see it in a ListView.\nThe user will also be able to erase the data he wants from the database through the ListView.</string>
 </resources>
