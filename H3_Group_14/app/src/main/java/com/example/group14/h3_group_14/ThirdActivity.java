@@ -1,5 +1,6 @@
 package com.example.group14.h3_group_14;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,10 +29,15 @@ public class ThirdActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            openAbout();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void openAbout() {
+        Intent intent = new Intent(ThirdActivity.this, AboutActivity.class);
+        startActivity(intent);
     }
 }
