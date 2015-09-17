@@ -12,7 +12,7 @@
         android:layout_marginBottom="118dp"
         android:text="@string/hello_world"
         android:id="@+id/txtNote"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:layout_above="@+id/btNote"
         android:layout_centerHorizontal="true" />
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="@string/b_note"
         android:id="@+id/btNote"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:text="@string/b_database"
         android:id="@+id/btDatabase"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:layout_marginTop="69dp"
         android:layout_below="@+id/btSave"
         android:layout_centerHorizontal="true" />
@@ -40,7 +40,8 @@
         android:layout_height="wrap_content"
         android:text="@string/b_save"
         android:id="@+id/btSave"
-        android:textSize="25dp"
+        android:textSize="25sp"
+        android:onClick="btSave"
         android:layout_below="@+id/btNote"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="67dp" />

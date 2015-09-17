@@ -2,6 +2,7 @@ package com.example.group14.h3_group_14;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    String txt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,21 @@ public class MainActivity extends AppCompatActivity {
         if (reqCode == 0) {
             TextView txtNote = (TextView) findViewById(R.id.txtNote);
             txtNote.setText(receive.getCharSequenceExtra("note"));
+            txt = txtNote.toString();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.activity_main);
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+            TextView txtNote = (TextView) findViewById(R.id.txtNote);
+            txtNote.setText(txt);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
     }
 
