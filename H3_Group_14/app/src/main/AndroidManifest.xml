@@ -32,10 +32,6 @@
             android:name=".ThirdActivity"
             android:label="@string/title_activity_third" >
         </activity>
-        <activity
-            android:name=".AboutActivity"
-            android:label="@string/title_activity_about" >
-        </activity>
     </application>
 
 </manifest>

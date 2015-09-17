@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:text="@string/b_save"
         android:id="@+id/btSave"
+        android:onClick="btSave"
         android:layout_below="@+id/btNote"
         android:layout_centerHorizontal="true" />
 

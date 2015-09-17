@@ -7,8 +7,8 @@
     tools:context="com.example.group14.h3_group_14.ThirdActivity"
     android:background="@android:color/holo_green_dark">
 
-    <ListView
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
         android:layout_alignParentTop="true"

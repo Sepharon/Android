@@ -14,18 +14,16 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.apache.http.conn.ConnectTimeoutException;
-
-import java.io.File;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class SQLDataBase extends ContentProvider {
     // Creating Uri
-    static final String PROVIDER_NAME = "com.example.group14.provider";
+    static final String PROVIDER_NAME = "com.example.group14.provider.Notes";
     static final String BASE = "db";
     static final String URL = "content://" + PROVIDER_NAME + "/" +BASE;
-    static final Uri CONTENT_URI = Uri.parse("content://" + URL);
+    static final Uri CONTENT_URI = Uri.parse(URL);
 
     // IMPORTANT, FIRST ONE SELECTS EVERYTHING, SECOND SELECTS ONLY ONE
     static final int ALL_ROWS = 1;
@@ -42,21 +40,21 @@ public class SQLDataBase extends ContentProvider {
     }
 
 
-    // Creating DB
-    static final String id = "id";
-    static final String NoteText = "NoteText";
-    static final String DateTime = "DateTime";
 
     private SQLiteDatabase db;
-    static final String DATABASE_NAME = "db";
+    // Creating DB
+    static final String _ID = "_id";
+    static final String NOTE = "NoteText";
+    static final String DATETIME = "DateTime";
+    static final String DATABASE_NAME = "Notes";
     static final String TABLE_NAME = "notes";
     static int DATABASE_VERSION = 1;
-    static final String CREATE_DB_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + id +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ NoteText + " TEXT NOT NULL, "
-            + DateTime + " TEXT NOT NULL);";
+    static final String CREATE_DB_TABLE =
+            " CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                  " NoteText TEXT NOT NULL, " +
+                    " DateTime TEXT NOT NULL);";
 
     private static class  DatabaseHelper extends SQLiteOpenHelper{
-
-
 
         DatabaseHelper (Context context) {
             super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -83,16 +81,16 @@ public class SQLDataBase extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Implement this to handle requests to delete one or more rows.
-        int affected_rows;
+        int affected_rows=0;
 
         switch (uriMatcher.match(uri)){
             case SINGLE_ROW:
-                String last_id = uri.getLastPathSegment();
-                if (TextUtils.isEmpty(selection)) affected_rows = db.delete(TABLE_NAME,id + "=" + last_id,null);
-                else affected_rows = db.delete(TABLE_NAME,id + "=" + last_id + " and " + selection,selectionArgs);
+                String id = uri.getPathSegments().get(1);
+                affected_rows = db.delete(TABLE_NAME, _ID +  " = " + id +
+                        (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
                 break;
             case ALL_ROWS:
-                affected_rows = db.delete(DATABASE_NAME,selection,selectionArgs);
+                affected_rows = db.delete(TABLE_NAME,selection,selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri );
@@ -109,7 +107,7 @@ public class SQLDataBase extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        long row_id = db.insert(DATABASE_NAME,"",values );
+        long row_id = db.insert(TABLE_NAME,"",values );
         Log.v("CP","User inserted : " + values);
         if (row_id>0) {
             Uri _uri = ContentUris.withAppendedId(CONTENT_URI,row_id);
@@ -118,17 +116,18 @@ public class SQLDataBase extends ContentProvider {
             return _uri;
         }
         Log.v("CP","Error inserting");
-        throw new SQLException("Failed to add values intro db " + uri);
+        throw new SQLException("Failed to add values into db " + uri);
     }
 
     @Override
     public boolean onCreate() {
         Context context = getContext();
-        // Maybe : DatabaseHelper dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         Log.v("CP","Create CP");
-        File dbFile = context.getDatabasePath("db");
-        Log.v("CP","" + dbFile.exists());
-        return dbFile.exists();
+        db = dbHelper.getWritableDatabase();
+        //Log.v("CP","" + dbFile.exists());
+        //return dbFile.exists();
+        return (db!=null);
     }
 
     @Override
@@ -137,7 +136,7 @@ public class SQLDataBase extends ContentProvider {
 
         SQLiteQueryBuilder qdb = new SQLiteQueryBuilder();
 
-        qdb.setTables(DATABASE_NAME);
+        qdb.setTables(TABLE_NAME);
         Log.v("CP","QUERY");
         switch (uriMatcher.match(uri)){
             // Selecting rows
@@ -147,13 +146,13 @@ public class SQLDataBase extends ContentProvider {
                 break;
             case SINGLE_ROW:
                 Log.v("CP","single_rows");
-                qdb.appendWhere( id + "=" +uri.getPathSegments().get(1));
+                qdb.appendWhere( _ID + "=" +uri.getPathSegments().get(1));
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
         // Sorting by id
-        if (sortOrder ==  null || sortOrder.equals("")) sortOrder=id;
+        if (sortOrder ==  null || sortOrder.equals("")) sortOrder=NOTE;
         // Starting query
         Cursor c = qdb.query(db,projection,selection,selectionArgs,null,null,sortOrder);
         c.setNotificationUri(getContext().getContentResolver(),uri);
@@ -164,16 +163,15 @@ public class SQLDataBase extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        int affected_rows;
+        int affected_rows=0;
 
         switch (uriMatcher.match(uri)){
             case SINGLE_ROW:
-                String last_id = uri.getLastPathSegment();
-                if (TextUtils.isEmpty(selection)) affected_rows = db.update(TABLE_NAME,values,id + "=" + last_id,null);
-                else affected_rows = db.update(TABLE_NAME,values,id + "=" + last_id + " and " + selection,selectionArgs);
+                affected_rows = db.update(TABLE_NAME, values, _ID + " = " + uri.getPathSegments().get(1) +
+                        (!TextUtils.isEmpty(selection) ? " AND (" +selection + ')' : ""), selectionArgs);
                 break;
             case ALL_ROWS:
-                affected_rows = db.update(DATABASE_NAME,values,selection,selectionArgs);
+                affected_rows = db.update(TABLE_NAME,values,selection,selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri );
