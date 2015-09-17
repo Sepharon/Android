@@ -94,10 +94,15 @@ public class SecondActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            openAbout();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void openAbout() {
+        Intent intent = new Intent(SecondActivity.this, AboutActivity.class);
+        startActivity(intent);
     }
 }
