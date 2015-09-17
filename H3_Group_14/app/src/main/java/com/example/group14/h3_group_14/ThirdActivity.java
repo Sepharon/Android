@@ -55,7 +55,7 @@ public class ThirdActivity extends ListActivity {
                 String[] parts = item.split("\n");
                 String[] note = parts[1].split(": ");
                 //Toast.makeText(this, note[1], Toast.LENGTH_LONG).show();
-                String[] args = new String[] {note[1]};
+                String[] args = new String[]{note[1]};
                 getContentResolver().delete(SQLDataBase.CONTENT_URI, "DateTime=?", args);
                 reload();
             }
@@ -97,7 +97,7 @@ public class ThirdActivity extends ListActivity {
                 list.add("Content: "+c.getString(c.getColumnIndexOrThrow("NoteText"))+"\nDate: " + c.getString(c.getColumnIndexOrThrow("DateTime")));
             } while (c.moveToNext());
         }
-        Log.v("List1", ""+list);
+        Log.v("List1", "" + list);
         return list;
     }
 
@@ -110,10 +110,15 @@ public class ThirdActivity extends ListActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            openAbout();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void openAbout() {
+        Intent intent = new Intent(ThirdActivity.this, AboutActivity.class);
+        startActivity(intent);
     }
 }

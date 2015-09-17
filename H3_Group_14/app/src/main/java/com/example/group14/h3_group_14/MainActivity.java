@@ -1,6 +1,8 @@
 package com.example.group14.h3_group_14;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent3 = new Intent(MainActivity.this, ThirdActivity.class);
-                startActivityForResult(intent3, 0);
+                startActivityForResult(intent3, 1);
             }
         });
     }
@@ -42,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
     // Receive the data from second activity when this is finished; Code similar from Hand In 1
     @Override
     protected void onActivityResult(int reqCode, int resCode, Intent receive) {
-
-        TextView txtNote = (TextView) findViewById(R.id.txtNote);
-        txtNote.setText(receive.getCharSequenceExtra("note"));
+        if (reqCode == 0) {
+            TextView txtNote = (TextView) findViewById(R.id.txtNote);
+            txtNote.setText(receive.getCharSequenceExtra("note"));
+        }
     }
 
     @Override
@@ -73,4 +80,19 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, AboutActivity.class);
         startActivity(intent);
     }
+    public void btSave(View view){
+        ContentValues values = new ContentValues();
+        TextView txtNote = (TextView) findViewById(R.id.txtNote);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss:ms");
+        String ts = sdf.format(new Date());
+        String val = txtNote.getText().toString();
+
+        values.put(SQLDataBase.NOTE, val);
+        values.put(SQLDataBase.DATETIME, ts);
+
+        Uri uri = getContentResolver().insert(SQLDataBase.CONTENT_URI, values);
+        Toast.makeText(getBaseContext(), "Saved", Toast.LENGTH_LONG).show();
+    }
+
 }
