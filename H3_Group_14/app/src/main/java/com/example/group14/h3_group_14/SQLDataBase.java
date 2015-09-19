@@ -109,7 +109,6 @@ public class SQLDataBase extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        // Crec que aqui no va re....
         return null;
     }
 
