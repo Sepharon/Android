@@ -3,17 +3,21 @@ package com.example.group14.h3_group_14;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,9 +28,7 @@ import java.util.List;
  */
 
 public class ThirdActivity extends ListActivity {
-    private SQLDataBase db;
     List<String> list = new ArrayList<String>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,27 +46,27 @@ public class ThirdActivity extends ListActivity {
 
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final String item = (String) getListAdapter().getItem(position);
-
+        CharSequence options[] = new CharSequence[]{getApplicationContext().getResources().getString(R.string.modify), getApplicationContext().getResources().getString(R.string.delete)};
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(getApplicationContext().getResources().getString(R.string.question));
-        alertDialogBuilder.setPositiveButton(getApplication().getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
 
-                //Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
-                String[] parts = item.split("\n");
-                String[] note = parts[1].split(": ");
-                //Toast.makeText(this, note[1], Toast.LENGTH_LONG).show();
-                String[] args = new String[]{note[1]};
-                getContentResolver().delete(SQLDataBase.CONTENT_URI, "DateTime=?", args);
-                reload();
-            }
-        });
-
-        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //finish();
+                if (which == 0) {
+                    String[] parts = item.split("\n");
+                    String[] note = parts[1].split(": ");
+                    String[] args = new String[]{note[1]};
+                    Intent intent = new Intent(ThirdActivity.this, ModifyActivity.class);
+                    intent.putExtra("item", args[0]);
+                    startActivity(intent);
+                } else if (which == 1) {
+                    String[] parts = item.split("\n");
+                    String[] note = parts[1].split(": ");
+                    //Toast.makeText(this, note[1], Toast.LENGTH_LONG).show();
+                    String[] args = new String[]{note[1]};
+                    getContentResolver().delete(SQLDataBase.CONTENT_URI, "DateTime=?", args);
+                    reload();
+                }
             }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -72,7 +74,7 @@ public class ThirdActivity extends ListActivity {
 
     }
 
-    public void reload(){
+    public void reload() {
         Intent reload = new Intent(ThirdActivity.this, ThirdActivity.class);
         startActivity(reload);
         this.finish();
@@ -86,7 +88,7 @@ public class ThirdActivity extends ListActivity {
         return true;
     }
 
-    public List getAllEntries () {
+    public List getAllEntries() {
         // Retrieve student records
         String URL = "content://com.example.group14.provider.Notes/db";
 
@@ -94,10 +96,9 @@ public class ThirdActivity extends ListActivity {
         Cursor c = managedQuery(notesText, null, null, null, null);
         if (c.moveToFirst()) {
             do {
-                list.add("Content: "+c.getString(c.getColumnIndexOrThrow("NoteText"))+"\nDate: " + c.getString(c.getColumnIndexOrThrow("DateTime")));
+                list.add("Content: " + c.getString(c.getColumnIndexOrThrow("NoteText")) + "\nDate: " + c.getString(c.getColumnIndexOrThrow("DateTime")));
             } while (c.moveToNext());
         }
-        Log.v("List1", "" + list);
         return list;
     }
 
@@ -117,8 +118,10 @@ public class ThirdActivity extends ListActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     public void openAbout() {
         Intent intent = new Intent(ThirdActivity.this, AboutActivity.class);
         startActivity(intent);
     }
+
 }

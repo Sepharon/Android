@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_text">La aplicación ha sido creada por el grupo 14.\nConsiste  en almacenar datos en la base de datos SQL escrita por el usuario.\nAsí, el usuario podrá acceder a estos datos  y ver los en una ListView.\nEl usuario podrá eliminar los datos que quiera  de la base de datos a partir de  la ListView.</string>
+    <string name="about_text">La aplicación ha sido creada por el grupo 14.\nConsiste  en almacenar datos en la base de datos SQL escrita por el usuario.\nAsí, el usuario podrá acceder a estos datos  y ver los en una ListView.\nEl usuario podrá eliminar y modificar los datos que quiera  de la base de datos a partir de  la ListView.</string>
     <string name="action_settings">Información</string>
     <string name="b_cancel">Cancelar</string>
     <string name="b_database">Mostrar Notas Guardadas</string>
@@ -12,4 +12,6 @@
     <string name="txt_hint">Escribe tu nota aquí</string>
     <string name="question">¿Estas seguro de que quieres eliminar ésta nota?</string>
     <string name="yes">Si</string>
+    <string name="delete">Eliminar</string>
+    <string name="modify">Modificar</string>
 </resources>

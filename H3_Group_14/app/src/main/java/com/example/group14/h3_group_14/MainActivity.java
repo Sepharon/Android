@@ -17,15 +17,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-
+    Button btNote;
+    Button btShow;
+    TextView txtNote;
     String txt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btNote = (Button)findViewById(R.id.btNote);
-        Button btShow = (Button)findViewById(R.id.btDatabase);
+        btNote = (Button)findViewById(R.id.btNote);
+        btShow = (Button)findViewById(R.id.btDatabase);
+        txtNote = (TextView) findViewById(R.id.txtNote);
 
         // When the button is pressed, second activity is started; Code similar from Hand In 1
         btNote.setOnClickListener(new View.OnClickListener() {
@@ -35,25 +38,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent2, 0);
             }
         });
-
         // When the button is pressed, third activity is started; Code similar from Hand In 1
         btShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent3 = new Intent(MainActivity.this, ThirdActivity.class);
-                startActivityForResult(intent3, 1);
+                startActivity(intent3);
             }
         });
     }
 
 
     // Receive the data from second activity when this is finished; Code similar from Hand In 1
-    @Override
-    protected void onActivityResult(int reqCode, int resCode, Intent receive) {
-        if (reqCode == 0) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==0) {
             try {
-                TextView txtNote = (TextView) findViewById(R.id.txtNote);
-                txtNote.setText(receive.getCharSequenceExtra("note"));
+                txtNote.setText(data.getCharSequenceExtra("note"));
                 txt = txtNote.toString();
 
             }
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-            TextView txtNote = (TextView) findViewById(R.id.txtNote);
             txtNote.setText(txt);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
@@ -105,9 +105,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void btSave(View view){
-        //sñdkjfhsadufsaspdhashudhuadshudas
         ContentValues values = new ContentValues();
-        TextView txtNote = (TextView) findViewById(R.id.txtNote);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss:ms");
         String ts = sdf.format(new Date());
@@ -116,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(SQLDataBase.NOTE, val);
         values.put(SQLDataBase.DATETIME, ts);
 
-        Uri uri = getContentResolver().insert(SQLDataBase.CONTENT_URI, values);
+        getContentResolver().insert(SQLDataBase.CONTENT_URI, values);
         Toast.makeText(getBaseContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 

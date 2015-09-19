@@ -11,28 +11,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b_ok"
-        android:id="@+id/btOk"
+        android:id="@+id/ok"
         android:layout_marginTop="65dp"
-        android:layout_below="@+id/edText"
+        android:layout_below="@+id/edText2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:enabled="false" />
+        android:enabled="false"
+        android:textSize="50sp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b_cancel"
-        android:id="@+id/btCancel"
-        android:layout_alignTop="@+id/btOk"
+        android:id="@+id/cancel"
+        android:layout_alignTop="@+id/ok"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textSize="50sp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/edText"
+        android:id="@+id/edText2"
         android:inputType="textCapSentences"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:hint="@string/txt_hint" />
+        android:hint="@string/txt_hint"
+        android:textSize="50sp" />
 </RelativeLayout>
+

@@ -160,7 +160,7 @@ public class SQLDataBase extends ContentProvider {
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
         // Sorting by id
-        if (sortOrder ==  null || sortOrder.equals("")) sortOrder=NOTE;
+        if (sortOrder ==  null || sortOrder.equals("")) sortOrder=DATETIME;
         // Starting query
         Cursor c = qdb.query(db,projection,selection,selectionArgs,null,null,sortOrder);
         c.setNotificationUri(getContext().getContentResolver(),uri);

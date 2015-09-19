@@ -12,47 +12,49 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-public class SecondActivity extends AppCompatActivity {
+public class ModifyActivity extends AppCompatActivity {
     private EditText edNote;
-    Button btOk;
-    Button btCancel;
-    private String note;
+    private String args;
+    Button modify;
+    Button cancel;
+    private ContentValues values;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_modify);
 
-        edNote = (EditText) findViewById(R.id.edText);
+        edNote = (EditText) findViewById(R.id.edText2);
 
         // When cancel button is pressed, second activity is finished without sending anything; Code similar from Hand In 1
-        btCancel = (Button) findViewById(R.id.btCancel);
-        btCancel.setOnClickListener(new View.OnClickListener() {
+        cancel = (Button) findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent0 = new Intent();
-                SecondActivity.this.setResult(0, intent0);
-                SecondActivity.this.finish();
-
-            }
-        });
-        btOk = (Button) findViewById(R.id.btOk);
-
-        btOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1 = new Intent();
-                if  (edNote.getText()==null) note = "" ;
-                else note = edNote.getText().toString();
-                intent1.putExtra("note", note);
-                setResult(0, intent1);
                 finish();
 
             }
+        });
+        modify = (Button) findViewById(R.id.ok);
+        values = new ContentValues();
+
+        modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getIntent();
+                args = intent.getStringExtra("item");
+                String selection[] = {args};
+                Log.v("args", "" + args);
+                String note = edNote.getText().toString();
+                Log.v("nooote", "" + note);
+                values.put(SQLDataBase.NOTE, note);
+                getContentResolver().update(SQLDataBase.CONTENT_URI, values, "DateTime=?", selection);
+                Intent intent2 = new Intent(ModifyActivity.this, ThirdActivity.class);
+                startActivity(intent2);
+                finish();
+            }
+
         });
 
         // When text from the Edit Text changes and it isn't null, Button OK is enabled.
@@ -66,9 +68,9 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (edNote.getText().toString().equals("")) {
-                    btOk.setEnabled(false);
+                    modify.setEnabled(false);
                 } else {
-                    btOk.setEnabled(true);
+                    modify.setEnabled(true);
                 }
             }
 
@@ -103,9 +105,8 @@ public class SecondActivity extends AppCompatActivity {
     }
 
     public void openAbout() {
-        Intent intent = new Intent(SecondActivity.this, AboutActivity.class);
+        Intent intent = new Intent(ModifyActivity.this, AboutActivity.class);
         startActivity(intent);
     }
-
-
 }
+
