@@ -42,6 +42,7 @@ public class SecondActivity extends AppCompatActivity {
         });
         btOk = (Button) findViewById(R.id.btOk);
 
+        //When OK button is pressed, it sends the value of the note to the MainActivity
         btOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

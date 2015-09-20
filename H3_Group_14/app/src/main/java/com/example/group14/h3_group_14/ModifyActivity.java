@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+//This Activity is a copy from SecondActivity, but it is used to modify the SQLite database
+
 public class ModifyActivity extends AppCompatActivity {
     private EditText edNote;
     private String args;
@@ -39,6 +41,7 @@ public class ModifyActivity extends AppCompatActivity {
         modify = (Button) findViewById(R.id.ok);
         values = new ContentValues();
 
+        //It gets the item that has to be update from an intent and update it with the new note written here
         modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

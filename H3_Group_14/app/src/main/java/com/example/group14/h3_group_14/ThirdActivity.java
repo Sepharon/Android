@@ -23,7 +23,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-/**Source:
+/**REFERENCE:
  * http://www.vogella.com/tutorials/AndroidListView/article.html
  */
 
@@ -44,6 +44,7 @@ public class ThirdActivity extends ListActivity {
 
     }
 
+    //When an item is clicked, it shows a dialog with the two options Modify and Delete and it modifies or deletes by querying with the DateTime value
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final String item = (String) getListAdapter().getItem(position);
         CharSequence options[] = new CharSequence[]{getApplicationContext().getResources().getString(R.string.modify), getApplicationContext().getResources().getString(R.string.delete)};
@@ -53,6 +54,7 @@ public class ThirdActivity extends ListActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
+                    //in case to modify, we send the item to the ModifyActivity
                     String[] parts = item.split("\n");
                     String[] note = parts[1].split(": ");
                     String[] args = new String[]{note[1]};
@@ -74,6 +76,7 @@ public class ThirdActivity extends ListActivity {
 
     }
 
+    //It refresh the activity to show the new contents of the database
     public void reload() {
         Intent reload = new Intent(ThirdActivity.this, ThirdActivity.class);
         startActivity(reload);
@@ -88,8 +91,8 @@ public class ThirdActivity extends ListActivity {
         return true;
     }
 
+    //This functions make a query to get all the entries from the SQLite Database and it stores it in a List.
     public List getAllEntries() {
-        // Retrieve student records
         String URL = "content://com.example.group14.provider.Notes/db";
 
         Uri notesText = Uri.parse(URL);

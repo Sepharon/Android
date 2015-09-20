@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //In case of changing the orientation
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -104,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, AboutActivity.class);
         startActivity(intent);
     }
+
+    //When the button Save is clicked, it stores in the database the note with the current time
     public void btSave(View view){
         ContentValues values = new ContentValues();
 
