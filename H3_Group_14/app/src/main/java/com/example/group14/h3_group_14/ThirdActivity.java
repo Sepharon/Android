@@ -121,7 +121,10 @@ public class ThirdActivity extends ListActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
+    public void onBackPressed() {
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
     public void openAbout() {
         Intent intent = new Intent(ThirdActivity.this, AboutActivity.class);
         startActivity(intent);

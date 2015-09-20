@@ -47,7 +47,7 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent();
-                if  (edNote.getText()==null) note = "" ;
+                if (edNote.getText() == null) note = "";
                 else note = edNote.getText().toString();
                 intent1.putExtra("note", note);
                 setResult(0, intent1);

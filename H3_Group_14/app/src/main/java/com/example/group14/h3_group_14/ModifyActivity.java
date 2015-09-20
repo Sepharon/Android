@@ -53,7 +53,7 @@ public class ModifyActivity extends AppCompatActivity {
                 Log.v("nooote", "" + note);
                 values.put(SQLDataBase.NOTE, note);
                 getContentResolver().update(SQLDataBase.CONTENT_URI, values, "DateTime=?", selection);
-                Intent intent2 = new Intent(ModifyActivity.this, MainActivity.class);
+                Intent intent2 = new Intent(ModifyActivity.this, ThirdActivity.class);
                 startActivity(intent2);
                 finish();
             }
