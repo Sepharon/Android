@@ -15,10 +15,14 @@ import android.os.Messenger;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class Weather_Data extends Service {
 
     static final int MSG_GET_DATA = 1;
-
+    static final String url = "http://api.openweathermap.org";
+    static final String request = "/data/2.5/weather?";
 
     private final IBinder mBinder = new LocalBinder();
     private Messenger msg = new Messenger(new IncomingHandler());
@@ -50,9 +54,18 @@ public class Weather_Data extends Service {
             }
             public void onFinish(){
                 //Write function to be called
+                get_weather_data();
                 start();
             }
         }.start();
+    }
+
+    public void get_weather_data(){
+        // TODO : DB WITH ID ?
+
+        String full_url = url+request+"q="+result+",dk";
+        Log.v("Service:" , "full url = "+full_url);
+
     }
 
     class IncomingHandler extends Handler {
@@ -63,7 +76,8 @@ public class Weather_Data extends Service {
             switch (msg.what) {
                 case MSG_GET_DATA:
                     Toast.makeText(getApplicationContext(), "hello!", Toast.LENGTH_SHORT).show();
-                    Log.v("Service:" ,"Got data");
+                    Log.v("Service:", "Got data");
+                    result = "Aarhus";
                     break;
                 default:
                     super.handleMessage(msg);
