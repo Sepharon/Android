@@ -12,11 +12,14 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     // call functions from service usuing data.function_name()
@@ -44,14 +47,28 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Weather_Data.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         // Sending data to Service
-        Log.v("Main Activity:", "Sending message to service");
-        Message m = Message.obtain();
-        Bundle bundle = new Bundle();
-        bundle.putString("city","Aarhus");
-        m.setData(bundle);
-        Log.v("Main Activity:", "Done sending message to service");
-        // Done sending data
+        Log.v("Activity:","Sending message");
+        Button b = (Button) findViewById(R.id.button);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!is_bound) return;
+                // Create and send a message to the service, using a supported 'what' value
+                Log.v("Activity:","Getting ready");
+                Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA, 0, 0);
+                try {
+                    mService.send(msg);
+                    Log.v("Activity:", "Message sent");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+                // Done sending data
+            }
+        });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,7 +91,19 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
+    public void sayHello(View v) {
+        Log.v("Activity:","Sending message");
+        if (!is_bound) return;
+        // Create and send a message to the service, using a supported 'what' value
+        Log.v("Activity:","Getting ready");
+        Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA, 0, 0);
+        try {
+            mService.send(msg);
+            Log.v("Activity:", "Message sent");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
     // Binding function
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -84,15 +113,16 @@ public class MainActivity extends AppCompatActivity {
                                        IBinder service) {
             Log.v("Main Activity:", "Binding service");
             // We've bound to LocalService, cast the IBinder and get LocalService instance
-            Weather_Data.LocalBinder binder = (Weather_Data.LocalBinder) service;
-            data = binder.getService();
+            //Weather_Data.LocalBinder binder = (Weather_Data.LocalBinder) service;
+            //data = binder.getService();
             mService = new Messenger(service);
             is_bound = true;
-            Log.v("Main Activity:", "Binding done");
         }
+
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
+            mService = null;
             is_bound = false;
         }
     };

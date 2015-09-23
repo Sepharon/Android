@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 public class Weather_Data extends Service {
 
+    static final int MSG_GET_DATA = 1;
+
+
     private final IBinder mBinder = new LocalBinder();
     private Messenger msg = new Messenger(new IncomingHandler());
     String result;
@@ -31,6 +34,7 @@ public class Weather_Data extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.v("Service:" , "Binding");
         return msg.getBinder();
     }
 
@@ -56,13 +60,17 @@ public class Weather_Data extends Service {
         public void handleMessage(Message msg) {
             // Here write code for messages from activity (eg: city to get data from,
             // units desired celius or farenheid)
+            switch (msg.what) {
+                case MSG_GET_DATA:
+                    Toast.makeText(getApplicationContext(), "hello!", Toast.LENGTH_SHORT).show();
+                    Log.v("Service:" ,"Got data");
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
 
-            Log.v("Service: ", "Received data");
-            result = msg.getData().toString();
-            Log.v("Service: ", "Data received = " +result);
         }
+
     }
-
-
 
 }
