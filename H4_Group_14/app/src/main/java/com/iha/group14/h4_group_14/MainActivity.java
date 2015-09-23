@@ -10,24 +10,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
     // call functions from service usuing data.function_name()
     Weather_Data data;
+    Messenger mService = null;
     boolean is_bound = false;
 
-    @Override
 
-    protected void onStart() {
-        super.onStart();
-        // Bind to LocalService
-        Intent intent = new Intent(this, Weather_Data.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-    }
     @Override
     protected void onStop() {
         super.onStop();
@@ -43,6 +40,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(this, Weather_Data.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        // Sending data to Service
+        Log.v("Main Activity:", "Sending message to service");
+        Message m = Message.obtain();
+        Bundle bundle = new Bundle();
+        bundle.putString("city","Aarhus");
+        m.setData(bundle);
+        Log.v("Main Activity:", "Done sending message to service");
+        // Done sending data
     }
 
     @Override
@@ -74,10 +82,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
+            Log.v("Main Activity:", "Binding service");
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             Weather_Data.LocalBinder binder = (Weather_Data.LocalBinder) service;
             data = binder.getService();
+            mService = new Messenger(service);
             is_bound = true;
+            Log.v("Main Activity:", "Binding done");
         }
 
         @Override
