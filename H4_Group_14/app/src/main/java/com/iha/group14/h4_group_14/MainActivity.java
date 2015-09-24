@@ -25,14 +25,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import java.util.List;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     // call functions from service usuing data.function_name()
@@ -42,12 +40,20 @@ public class MainActivity extends AppCompatActivity {
     SQL_database db;
 
     EditText data;
-    ContentValues values;
+
     CheckBox fahrenheit;
     CheckBox celsius;
     String temperature;
 
     Spinner spinner;
+
+    TextView Temperature;
+    TextView WindSpeed;
+    TextView Pressure;
+    TextView Humidity;
+    TextView Temp_min;
+    TextView Temp_max;
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -72,13 +78,21 @@ public class MainActivity extends AppCompatActivity {
         this.registerReceiver(new MyReceiver(), filter);
 
         data = (EditText)findViewById(R.id.data_field);
-        values = new ContentValues();
+        Temperature = (TextView)findViewById(R.id.textView3);
+        WindSpeed = (TextView)findViewById(R.id.textView4);
+        Pressure = (TextView)findViewById(R.id.textView6);
+        Humidity = (TextView)findViewById(R.id.textView8);
+        Temp_min = (TextView)findViewById(R.id.textView10);
+        Temp_max = (TextView)findViewById(R.id.textView12);
 
         spinner = (Spinner)findViewById(R.id.spinner);
 
-        spinner.setOnItemSelectedListener(MainActivity.this);
-
-        List<String>
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.country_codes, android.R.layout.simple_spinner_item);
+         // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
 
 
         fahrenheit = (CheckBox)findViewById(R.id.checkBox);
@@ -123,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 bundle.putString("unit", temperature);
                 bundle.putString("city", data.getText().toString());
-                bundle.putString("country_code", "dk");
+                bundle.putString("country_code", spinner.getSelectedItem().toString());
                 msg.setData(bundle);
                 try {
                     mService.send(msg);
@@ -157,9 +171,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-        else if (id == R.id.ListCity){
-            listCity();
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -190,36 +201,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String result = intent.getStringExtra("result");
+            Temperature.setText(result);
             // Put this empty again ,  don't think is needed tho
             Log.v("Activity One result", result);
-            if (result.equals("alive")) {}
-
-
-        }
-    }
-
-    public void listCity(){
-        Intent intent = new Intent(this, List_City.class);
-        startActivity(intent);
-    }
-
-    public String[] getAllEntries(){
-        String URL = "content://com.example.group14.provider.Weather/db";
-        Uri notesText = Uri.parse(URL);
-        Cursor c = managedQuery(notesText, null, null, null, null);
-        if (c.getCount() > 0){
-            String[] ips = new String[c.getCount()];
-            int i = 0;
-            while (c.moveToNext()){
-                ips[i] = c.getString(c.getColumnIndexOrThrow(SQL_database.CITY));
-                i++;
-            }
-            c.moveToFirst();
-            return ips;
-        }
-        else {
-            c.moveToFirst();
-            return new String[] {};
         }
     }
 }
