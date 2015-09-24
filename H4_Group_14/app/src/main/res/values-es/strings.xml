@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Opciones</string>
+    <string name="city">Escribe una ciudad</string>
+    <string name="humidity">Humedad:</string>
+    <string name="pressure">Presión:</string>
+    <string name="temp">Temperatura:</string>
+    <string name="title_activity_about">Información</string>
+    <string name="weather">Envia</string>
+    <string name="windspeed">Velocidad de el viento:</string>
+</resources>

@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     //Weather_Data data;
     Messenger mService = null;
     boolean is_bound = false;
-    SQL_database db;
 
     EditText data;
 
@@ -72,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, Weather_Data.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        db = new SQL_database();
 
         IntentFilter filter = new IntentFilter("miss_temps");
         this.registerReceiver(new MyReceiver(), filter);
