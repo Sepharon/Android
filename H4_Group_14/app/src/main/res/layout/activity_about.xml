@@ -13,5 +13,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="@string/about_text" />
+        android:text="@string/about_text"
+        android:textSize="@dimen/abc_dialog_padding_material"
+        android:textColor="@color/abc_primary_text_material_dark"
+        android:background="@color/abc_background_cache_hint_selector_material_dark"
+        android:elegantTextHeight="false" />
 </RelativeLayout>
