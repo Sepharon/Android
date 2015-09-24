@@ -66,8 +66,8 @@ public class Weather_Data extends Service {
         StrictMode.setThreadPolicy(policy);
         // f(total_countdown_time,tick_time)
         // 5 minutes, ticks every second
-        if (!is_network_aviable()) {
-            Toast.makeText(getBaseContext(), "No network aviable", Toast.LENGTH_LONG).show();
+        if (!is_network_available()) {
+            Toast.makeText(getBaseContext(), "No network available", Toast.LENGTH_LONG).show();
         }
         else {
             Log.v("Service: ", "Started countdown");
@@ -125,7 +125,7 @@ public class Weather_Data extends Service {
 
     }
 
-    public boolean is_network_aviable(){
+    public boolean is_network_available(){
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

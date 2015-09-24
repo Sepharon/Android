@@ -5,10 +5,15 @@ http://developer.android.com/guide/components/bound-services.html
 
 package com.iha.group14.h4_group_14;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -19,13 +24,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     // call functions from service usuing data.function_name()
-    Weather_Data data;
+    //Weather_Data data;
     Messenger mService = null;
     boolean is_bound = false;
+    SQL_database db;
+
+    AutoCompleteTextView data;
+    ArrayAdapter<String> myAdapter;
+    ContentValues values;
 
 
     @Override
@@ -46,18 +58,38 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, Weather_Data.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        db = new SQL_database();
+
+        IntentFilter filter = new IntentFilter("miss_temps");
+        this.registerReceiver(new MyReceiver(), filter);
+
+        data = (AutoCompleteTextView)findViewById(R.id.data_field);
+        values = new ContentValues();
+
+        try {
+            String[] ips = getAllEntries();
+            for (int i = 0; i < ips.length; i++) {
+                Log.i(this.toString(), ips[i]);
+            }
+            // set our adapter
+            myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, ips);
+            data.setAdapter(myAdapter);
+        }
+        catch (NullPointerException es){
+            es.printStackTrace();
+        }
         // Sending data to Service
-        Log.v("Activity:","Sending message");
+        Log.v("Activity:", "Sending message");
         Button b = (Button) findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!is_bound) return;
                 // Create and send a message to the service, using a supported 'what' value
-                Log.v("Activity:","Getting ready");
+                Log.v("Activity:", "Getting ready");
                 Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA);
                 Bundle bundle = new Bundle();
-                bundle.putString("city","Aarhus");
+                bundle.putString("city", "Aarhus");
                 msg.setData(bundle);
                 try {
                     mService.send(msg);
@@ -91,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == R.id.ListCity){
+            listCity();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -117,4 +152,40 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    public class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra("result");
+            // Put this empty again ,  don't think is needed tho
+            Log.v("Activity One result", result);
+            if (result.equals("alive")) {}
+
+
+        }
+    }
+
+    public void listCity(){
+        Intent intent = new Intent(this, List_City.class);
+        startActivity(intent);
+    }
+
+    public String[] getAllEntries(){
+        String URL = "content://com.example.group14.provider.Weather/db";
+        Uri notesText = Uri.parse(URL);
+        Cursor c = managedQuery(notesText, null, null, null, null);
+        if (c.getCount() > 0){
+            String[] ips = new String[c.getCount()];
+            int i = 0;
+            while (c.moveToNext()){
+                ips[i] = c.getString(c.getColumnIndexOrThrow(SQL_database.CITY));
+                i++;
+            }
+            c.moveToFirst();
+            return ips;
+        }
+        else {
+            c.moveToFirst();
+            return new String[] {};
+        }
+    }
 }
