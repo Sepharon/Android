@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Celsius"></string>
+    <string name="action_settings">Opcions</string>
+    <string name="city">Entra una ciutat</string>
+    <string name="humidity">Humitat:</string>
+    <string name="pressure">Pressió:</string>
+    <string name="temp">Temperatura:</string>
+    <string name="temp_max"></string>
+    <string name="title_activity_about">Informació</string>
+    <string name="weather">Envia</string>
+    <string name="windspeed">Velocitat del vent:</string>
+</resources>
