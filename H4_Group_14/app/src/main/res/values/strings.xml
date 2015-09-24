@@ -33,4 +33,5 @@
         <item>uk</item>
         <item>us</item>
     </string-array>
+    <string name="title_activity_about">About</string>
 </resources>

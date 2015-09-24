@@ -28,8 +28,8 @@
         </service>
 
         <activity
-            android:name=".List_City"
-            android:label="@string/title_activity_list__city" >
+            android:name=".About"
+            android:label="@string/title_activity_about" >
         </activity>
     </application>
 
