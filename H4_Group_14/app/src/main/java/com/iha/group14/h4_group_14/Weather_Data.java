@@ -42,7 +42,9 @@ public class Weather_Data extends Service {
 
     private final IBinder mBinder = new LocalBinder();
     private Messenger msg = new Messenger(new IncomingHandler());
-    String result="";
+    String result_city="";
+    String result_country="";
+    String temp_units="";
     JSONObject weather_data;
     public class LocalBinder extends Binder {
         Weather_Data getService() {
@@ -87,7 +89,7 @@ public class Weather_Data extends Service {
 
         int responseCode;
 
-        String full_url = url+request+"q="+result+",dk"+"&APPID=3e16d61afeec2d2b55c477eaf523cb20";
+        String full_url = url+request+"q="+result_city+","+result_country+"&units="+temp_units+"&APPID=3e16d61afeec2d2b55c477eaf523cb20";
         Log.v("Service:", "full url = " + full_url);
 
         try{
@@ -141,15 +143,14 @@ public class Weather_Data extends Service {
                 case MSG_GET_DATA:
 
                     Log.v("Service:", "Got data");
-                    result = msg.getData().getString("city");
-                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                    result_city = msg.getData().getString("city");
+                    result_country = msg.getData().getString("country_code");
+                    temp_units = msg.getData().getString("unit");
+                    Toast.makeText(getApplicationContext(), result_city, Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     super.handleMessage(msg);
             }
-
         }
-
     }
-
 }

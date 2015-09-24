@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA);
                 Bundle bundle = new Bundle();
                 bundle.putString("city", "Aarhus");
+                bundle.putString("country_code","dk");
                 msg.setData(bundle);
                 try {
                     mService.send(msg);

@@ -188,4 +188,10 @@ public class SQL_database extends ContentProvider {
         return affected_rows;
     }
 
+    public void insert_json_values(){
+
+
+
+    }
+
 }
