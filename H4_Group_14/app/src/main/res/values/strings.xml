@@ -6,8 +6,31 @@
     <string name="title_activity_list__city">List_City</string>
 
     <string-array name="contry_codes">
-        <item>ES</item>
-        <item>DK</item>
-        <item></item>
+        <item>es</item>
+        <item>dk</item>
+        <item>ad</item>
+        <item>af</item>
+        <item>an</item>
+        <item>aq</item>
+        <item>ar</item>
+        <item>be</item>
+        <item>br</item>
+        <item>ca</item>
+        <item>ch</item>
+        <item>de</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>hk</item>
+        <item>ie</item>
+        <item>it</item>
+        <item>jp</item>
+        <item>kr</item>
+        <item>lu</item>
+        <item>mx</item>
+        <item>nl</item>
+        <item>no</item>
+        <item>pl</item>
+        <item>uk</item>
+        <item>us</item>
     </string-array>
 </resources>
