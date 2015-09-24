@@ -55,7 +55,10 @@ public class MainActivity extends AppCompatActivity {
                 if (!is_bound) return;
                 // Create and send a message to the service, using a supported 'what' value
                 Log.v("Activity:","Getting ready");
-                Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA, 0, 0);
+                Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA);
+                Bundle bundle = new Bundle();
+                bundle.putString("city","Aarhus");
+                msg.setData(bundle);
                 try {
                     mService.send(msg);
                     Log.v("Activity:", "Message sent");
@@ -90,19 +93,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    public void sayHello(View v) {
-        Log.v("Activity:","Sending message");
-        if (!is_bound) return;
-        // Create and send a message to the service, using a supported 'what' value
-        Log.v("Activity:","Getting ready");
-        Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA, 0, 0);
-        try {
-            mService.send(msg);
-            Log.v("Activity:", "Message sent");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
 
     // Binding function
