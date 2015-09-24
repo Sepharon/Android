@@ -1,9 +1,5 @@
 <resources>
-    <string name="app_name">H4_Group_14</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_list__city">List_City</string>
+    <string name="app_name" translatable="false">H4_Group_14</string>
 
     <string-array name="country_codes">
         <item>es</item>
