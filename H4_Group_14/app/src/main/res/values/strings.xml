@@ -4,4 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_list__city">List_City</string>
+
+    <string-array name="contry_codes">
+        <item>ES</item>
+        <item>DK</item>
+        <item></item>
+    </string-array>
 </resources>

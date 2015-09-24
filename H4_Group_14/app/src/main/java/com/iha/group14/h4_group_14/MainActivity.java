@@ -27,6 +27,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     // call functions from service usuing data.function_name()
@@ -35,11 +41,13 @@ public class MainActivity extends AppCompatActivity {
     boolean is_bound = false;
     SQL_database db;
 
-    AutoCompleteTextView data;
-    ArrayAdapter<String> myAdapter;
+    EditText data;
     ContentValues values;
+    CheckBox fahrenheit;
+    CheckBox celsius;
+    String temperature;
 
-
+    Spinner spinner;
     @Override
     protected void onStop() {
         super.onStop();
@@ -63,21 +71,39 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter("miss_temps");
         this.registerReceiver(new MyReceiver(), filter);
 
-        data = (AutoCompleteTextView)findViewById(R.id.data_field);
+        data = (EditText)findViewById(R.id.data_field);
         values = new ContentValues();
 
-        try {
-            String[] ips = getAllEntries();
-            for (int i = 0; i < ips.length; i++) {
-                Log.i(this.toString(), ips[i]);
+        spinner = (Spinner)findViewById(R.id.spinner);
+
+        spinner.setOnItemSelectedListener(MainActivity.this);
+
+        List<String>
+
+
+        fahrenheit = (CheckBox)findViewById(R.id.checkBox);
+        celsius = (CheckBox)findViewById(R.id.checkBox2);
+        celsius.setChecked(true);
+        fahrenheit.setChecked(false);
+
+
+        celsius.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (celsius.isChecked()) {
+                    fahrenheit.setChecked(false);
+                }
             }
-            // set our adapter
-            myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, ips);
-            data.setAdapter(myAdapter);
-        }
-        catch (NullPointerException es){
-            es.printStackTrace();
-        }
+        });
+        fahrenheit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (fahrenheit.isChecked()){
+                    celsius.setChecked(false);
+                }
+            }
+        });
+
         // Sending data to Service
         Log.v("Activity:", "Sending message");
         Button b = (Button) findViewById(R.id.button);
@@ -89,8 +115,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.v("Activity:", "Getting ready");
                 Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA);
                 Bundle bundle = new Bundle();
-                bundle.putString("city", "Aarhus");
-                bundle.putString("country_code","dk");
+                if (celsius.isChecked()){
+                    temperature="metric";
+                }
+                else if (fahrenheit.isChecked()){
+                    temperature="imperial";
+                }
+                bundle.putString("unit", temperature);
+                bundle.putString("city", data.getText().toString());
+                bundle.putString("country_code", "dk");
                 msg.setData(bundle);
                 try {
                     mService.send(msg);

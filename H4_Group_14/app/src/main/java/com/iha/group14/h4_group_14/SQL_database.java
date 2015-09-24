@@ -59,8 +59,6 @@ public class SQL_database extends ContentProvider {
     static final String CREATE_DB_TABLE =
             " CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY, "+
                     " City TEXT NOT NULL, Country TEXT NOT NULL, UNIQUE(City));";
-    static final String INSERT_DB =
-            " INSERT INTO " + TABLE_NAME + " (_id, City, Country) values (2624652, 'Aarhus', 'Denmark');";
 
     private static class  DatabaseHelper extends SQLiteOpenHelper{
 
@@ -72,7 +70,6 @@ public class SQL_database extends ContentProvider {
         public void onCreate(SQLiteDatabase db) {
             Log.v("CP","Oncreate helper");
             db.execSQL(CREATE_DB_TABLE);
-            db.execSQL(INSERT_DB);
         }
 
         @Override

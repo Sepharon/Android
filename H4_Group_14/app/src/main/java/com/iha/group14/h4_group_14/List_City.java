@@ -22,8 +22,11 @@ public class List_City extends ListActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAllEntries();
-
+        try {
+            getAllEntries();
+        } catch (NullPointerException es){
+            es.printStackTrace();
+        }
         // use your custom layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.activity_list__city, R.id.listView, list);
