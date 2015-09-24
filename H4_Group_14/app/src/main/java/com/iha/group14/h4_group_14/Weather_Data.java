@@ -42,7 +42,7 @@ public class Weather_Data extends Service {
 
     private final IBinder mBinder = new LocalBinder();
     private Messenger msg = new Messenger(new IncomingHandler());
-    String result="IT DOES NOT EXIST DON'T LIE TO ME";
+    String result="";
     JSONObject weather_data;
     public class LocalBinder extends Binder {
         Weather_Data getService() {
@@ -93,18 +93,23 @@ public class Weather_Data extends Service {
         try{
             Log.v("Service:" , "Creating connection");
             URL link_url = new URL(full_url);
+            // Opening connection
             URLConnection connection = link_url.openConnection();
             Log.v("Service:" , "Trying connection");
             HttpURLConnection httpConnection = (HttpURLConnection) connection;
+            // Checking if connection exists
             responseCode = httpConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK){
                 httpConnection.connect();
                 Log.v("Service:", "Connection ok, getting input");
                 InputStream stream = httpConnection.getInputStream();
                 Log.v("Service:" , "Reading stream");
+                // Read data
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
-                Log.v("Service: ", reader.readLine());
-                weather_data = new JSONObject(reader.readLine());
+                String json = reader.readLine();
+                Log.v("Service: ", json);
+                // Put the data in a JSONObject
+                weather_data = new JSONObject(json);
             }
             else {
                 Log.v("Service: ", "city does not exist");
