@@ -58,7 +58,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        android:id="@+id/About_text"
         android:text="Temperature:"
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true"
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
         android:text="Wind speed:"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/About_text"
         android:layout_centerHorizontal="true"
         android:layout_toLeftOf="@+id/textView4" />
     <TextView
