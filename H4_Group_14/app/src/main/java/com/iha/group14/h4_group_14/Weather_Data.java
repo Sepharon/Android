@@ -80,40 +80,25 @@ public class Weather_Data extends Service {
             Toast.makeText(getBaseContext(), "No network available", Toast.LENGTH_LONG).show();
         }
         else {
-            /*if (first) {
-                first=false;
-                Log.v("Service: ",""+first);
-                Log.v("Service: ", "Started countdown");
-                new CountDownTimer(18000, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                    }
+            Log.v("Service: ", "Started countdown");
+            new CountDownTimer(300000, 1000) { //5min
+                public void onTick(long millisUntilFinished) {
+                    //Log.v("Service:",""+(i++));
+                }
 
-                    public void onFinish() {
-                        //Write function to be called
-                        Log.v("Service: "," 18 sec countdown");
-                        get_weather_data();
-                        start();
-                    }
-                }.start();
-            } else {*/
-                Log.v("Service: ", "Started countdown");
-                new CountDownTimer(300000, 1000) { //5min
-                    public void onTick(long millisUntilFinished) {
-                        Log.v("Service:",""+(i++));
-                    }
+                public void onFinish() {
+                    //Write function to be called
+                    i = 0;
+                    Log.v("Service: ", "5 min countdown");
+                    get_weather_data();
+                    start();
+                }
+            }.start();
 
-                    public void onFinish() {
-                        //Write function to be called
-                        i=0;
-                        Log.v("Service: ","5 min countdown");
-                        get_weather_data();
-                        start();
-                    }
-                }.start();
-            //}
         }
     }
 
+    //It gets the weather's data from the API
     public void get_weather_data(){
         int responseCode;
         Log.v("temp_unit", "" + temp_units);
@@ -159,6 +144,7 @@ public class Weather_Data extends Service {
 
     }
 
+    //It gets the JSON data from the API
     public void get_data_json(JSONObject weatherData) throws JSONException{
         mainData = weatherData.getJSONObject("main");
         windData = weatherData.getJSONObject("wind");
@@ -188,6 +174,7 @@ public class Weather_Data extends Service {
     }
 
 
+    //Check if there is internet connection
     public boolean is_network_available(){
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -195,6 +182,7 @@ public class Weather_Data extends Service {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    //It handles incoming messages
     class IncomingHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -202,7 +190,6 @@ public class Weather_Data extends Service {
             // units desired celius or farenheid)
             switch (msg.what) {
                 case MSG_GET_DATA:
-
                     Log.v("Service:", "Got data");
                     result_city = msg.getData().getString("city");
                     Log.v("Service:",result_city);

@@ -7,21 +7,16 @@ package com.iha.group14.h4_group_14;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,7 +25,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -41,13 +35,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     // call functions from service usuing data.function_name()
-    //Weather_Data data;
     Messenger mService = null;
     boolean is_bound = false;
 
@@ -101,9 +93,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //bind Service
         Intent intent = new Intent(this, Weather_Data.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
+        //Intent-filter for receiving Broadcast
         IntentFilter filter = new IntentFilter("miss_temps");
         this.registerReceiver(new MyReceiver(), filter);
 
@@ -183,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Sending data to Weather Activity
         details = (Button)findViewById(R.id.button2);
         details.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // When text from the Edit Text changes and it isn't null, Button Submit is enabled.
+        // When text from the Text View changes and it isn't null, Button Details is enabled.
         Temperature.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -258,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Counter to reload the MainActivity every 5 minutes
         new CountDownTimer(300000, 1000) { //5min
             public void onTick(long millisUntilFinished) {}
             public void onFinish() {
@@ -295,6 +291,8 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    //Call to About Activity
     public void openAbout() {
         Intent intent = new Intent(MainActivity.this, About.class);
         startActivity(intent);
@@ -322,6 +320,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    //Receiver from Service
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -362,6 +361,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Refresh values
     public void reload(){
         Temperature.setText(temp+"º");
         Temp_max.setText(temp_max+"º");
@@ -374,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
         change();
     }
 
+    //It changes the background image and text color depending on the HOUR.
     public void change(){
         c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);

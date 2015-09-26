@@ -70,6 +70,8 @@ public class Weather extends AppCompatActivity {
         Temp_max_d = (TextView)findViewById(R.id.temp_Detail3);
         layout = (RelativeLayout)findViewById(R.id.layout);
 
+
+        //Get data from MainActivity
         Intent intent = getIntent();
         City.setText(intent.getStringExtra("city"));
         Country.setText(intent.getStringExtra("country"));
@@ -121,6 +123,7 @@ public class Weather extends AppCompatActivity {
         change();
     }
 
+    //It changes the background image and text color depending on the HOUR.
     public void change(){
         c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
