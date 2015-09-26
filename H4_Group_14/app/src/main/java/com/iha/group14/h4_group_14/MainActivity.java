@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                 img.setImageResource(R.drawable.day_clear);
             }
             else if (weather.equals("Clouds")){
-                img.setImageResource(R.drawable.day_clouds);
+                img.setImageResource(R.drawable.scattered_clouds);
             }
             else if (weather.equals("Rain")){
                 img.setImageResource(R.drawable.rain);

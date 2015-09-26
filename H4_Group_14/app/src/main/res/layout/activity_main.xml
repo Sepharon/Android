@@ -28,10 +28,10 @@
         android:layout_height="50dp"
         android:id="@+id/spinner"
         android:layout_below="@+id/data_field"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignLeft="@+id/data_field"
-        android:layout_alignStart="@+id/data_field" />
+        android:layout_alignStart="@+id/data_field"
+        android:layout_toLeftOf="@+id/img"
+        android:layout_toStartOf="@+id/img" />
 
 
 
@@ -125,7 +125,8 @@
         android:onClick="request_data"
         android:layout_above="@+id/textView14"
         android:layout_toRightOf="@+id/checkBox2"
-        android:layout_toEndOf="@+id/checkBox2" />
+        android:layout_toEndOf="@+id/checkBox2"
+        android:layout_marginBottom="10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -134,7 +135,8 @@
         android:id="@+id/button"
         android:layout_above="@+id/temp_max"
         android:layout_toLeftOf="@+id/checkBox2"
-        android:layout_toStartOf="@+id/checkBox2" />
+        android:layout_toStartOf="@+id/checkBox2"
+        android:layout_marginBottom="10dp" />
 
     <ImageView
         android:layout_width="100dp"
