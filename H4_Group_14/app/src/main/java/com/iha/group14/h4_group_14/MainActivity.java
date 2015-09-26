@@ -13,24 +13,37 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     // call functions from service usuing data.function_name()
@@ -47,15 +60,33 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinner;
 
     TextView Temperature;
-    TextView WindSpeed;
-    TextView Pressure;
-    TextView Humidity;
     TextView Temp_min;
     TextView Temp_max;
+    TextView min;
+    TextView max;
+
+    RelativeLayout layout;
+
+
+    String temp="";
+    String temp_min="";
+    String temp_max="";
+    String weather = "";
+    String humidity ="";
+    String pressure ="";
+    String windspeed ="";
+    String units ="";
+
+    Button b;
+    Button details;
+
+    Calendar c;
+
+    ImageView img;
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         // Unbind from the service
         if (is_bound) {
             unbindService(mConnection);
@@ -76,12 +107,13 @@ public class MainActivity extends AppCompatActivity {
         this.registerReceiver(new MyReceiver(), filter);
 
         data = (EditText)findViewById(R.id.data_field);
-        Temperature = (TextView)findViewById(R.id.textView3);
-        WindSpeed = (TextView)findViewById(R.id.textView4);
-        Pressure = (TextView)findViewById(R.id.textView6);
-        Humidity = (TextView)findViewById(R.id.textView8);
-        Temp_min = (TextView)findViewById(R.id.textView10);
-        Temp_max = (TextView)findViewById(R.id.textView12);
+        Temperature = (TextView)findViewById(R.id.temp);
+        Temp_min = (TextView)findViewById(R.id.temp_min);
+        Temp_max = (TextView)findViewById(R.id.temp_max);
+        layout = (RelativeLayout)findViewById(R.id.back);
+        min = (TextView)findViewById(R.id.textView13);
+        max = (TextView)findViewById(R.id.textView14);
+        img = (ImageView)findViewById(R.id.img);
 
         spinner = (Spinner)findViewById(R.id.spinner);
 
@@ -110,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         fahrenheit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (fahrenheit.isChecked()){
+                if (fahrenheit.isChecked()) {
                     celsius.setChecked(false);
                 }
             }
@@ -118,35 +150,148 @@ public class MainActivity extends AppCompatActivity {
 
         // Sending data to Service
         Log.v("Activity:", "Sending message");
-        Button b = (Button) findViewById(R.id.button);
+        b = (Button) findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!is_bound) return;
-                // Create and send a message to the service, using a supported 'what' value
-                Log.v("Activity:", "Getting ready");
-                Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA);
-                Bundle bundle = new Bundle();
-                if (celsius.isChecked()){
-                    temperature="metric";
-                }
-                else if (fahrenheit.isChecked()){
-                    temperature="imperial";
-                }
-                bundle.putString("unit", temperature);
-                bundle.putString("city", data.getText().toString());
-                bundle.putString("country_code", spinner.getSelectedItem().toString());
-                msg.setData(bundle);
-                try {
-                    mService.send(msg);
-                    Log.v("Activity:", "Message sent");
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                if (is_bound) {
+                    //if (!is_bound) return;
+                    // Create and send a message to the service, using a supported 'what' value
+                    Log.v("Activity:", "Getting ready");
+                    Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA);
+                    Bundle bundle = new Bundle();
+                    if (celsius.isChecked() && !fahrenheit.isChecked()) {
+                        temperature = "metric";
+                    } else if (fahrenheit.isChecked() && !celsius.isChecked()) {
+                        temperature = "imperial";
+                    }
+                    Log.v("temp_units", "" + temperature);
+                    bundle.putString("unit", temperature);
+                    bundle.putString("city", data.getText().toString());
+                    bundle.putString("country_code", spinner.getSelectedItem().toString());
+                    msg.setData(bundle);
+                    try {
+                        mService.send(msg);
+                        Log.v("Activity:", "Message sent");
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
 
-                // Done sending data
+                    // Done sending data
+                }
             }
         });
+
+        details = (Button)findViewById(R.id.button2);
+        details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Weather.class);
+                intent.putExtra("city", data.getText().toString());
+                intent.putExtra("country", spinner.getSelectedItem().toString());
+                intent.putExtra("temp", temp);
+                intent.putExtra("temp_min", temp_min);
+                intent.putExtra("temp_max", temp_min);
+                intent.putExtra("humidity", humidity);
+                intent.putExtra("pressure", pressure);
+                intent.putExtra("windspeed", windspeed);
+                if (units.equals("metric")) {
+                    intent.putExtra("unit_temp", "C");
+                    intent.putExtra("unit_wind", "km/h");
+                } else if (units.equals("imperial")) {
+                    intent.putExtra("unit_temp", "F");
+                    intent.putExtra("unit_wind", "mph");
+                }
+                startActivity(intent);
+            }
+        });
+
+        b.setEnabled(false);
+        details.setEnabled(false);
+
+        // When text from the Edit Text changes and it isn't null, Button Submit is enabled.
+        data.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (data.getText().toString().equals("")) {
+                    b.setEnabled(false);
+                } else {
+                    b.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // When text from the Edit Text changes and it isn't null, Button Submit is enabled.
+        Temperature.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Temperature.getText().toString().equals("")) {
+                    details.setEnabled(false);
+
+
+                } else {
+                    details.setEnabled(true);
+                    min.setText("min");
+                    max.setText("max");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        new CountDownTimer(300000, 1000) { //5min
+            public void onTick(long millisUntilFinished) {}
+            public void onFinish() {
+                //Write function to be called
+                reload();
+                start();
+            }
+        }.start();
+
+        c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        Log.v("hoour", ""+hour);
+        if (hour>=6 && hour<19) {
+            Log.v("time", "day");
+            layout.setBackgroundResource(R.drawable.bg1);
+            fahrenheit.setTextColor(Color.parseColor("#000000"));
+            celsius.setTextColor(Color.parseColor("#000000"));
+            data.setTextColor(Color.parseColor("#000000"));
+
+
+        }
+        else if (hour>=19 && hour<=23 ){
+            Log.v("time", "night");
+            layout.setBackgroundResource(R.drawable.bg2);
+            fahrenheit.setTextColor(Color.parseColor("#FFFFFF"));
+            celsius.setTextColor(Color.parseColor("#FFFFFF"));
+            data.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+        else if (hour>=0 && hour<6 ){
+            Log.v("time", "night");
+            layout.setBackgroundResource(R.drawable.bg2);
+            fahrenheit.setTextColor(Color.parseColor("#FFFFFF"));
+            celsius.setTextColor(Color.parseColor("#FFFFFF"));
+            data.setTextColor(Color.parseColor("#FFFFFF"));
+        }
 
     }
 
@@ -204,10 +349,64 @@ public class MainActivity extends AppCompatActivity {
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String result = intent.getStringExtra("result");
-            Temperature.setText(result);
-            // Put this empty again ,  don't think is needed tho
-            Log.v("Activity One result", result);
+            temp = intent.getStringExtra("temp");
+            temp_min = intent.getStringExtra("temp_min");
+            temp_max = intent.getStringExtra("temp_max");
+            weather = intent.getStringExtra("weather");
+            humidity = intent.getStringExtra("humidity");
+            windspeed= intent.getStringExtra("windspeed");
+            pressure = intent.getStringExtra("pressure");
+            units = intent.getStringExtra("units");
+
+            if (weather.equals("Clear")){
+                img.setImageResource(R.drawable.day_clear);
+            }
+            else if (weather.equals("Clouds")){
+                img.setImageResource(R.drawable.day_clouds);
+            }
+            Temperature.setText(temp+"º");
+            Temp_max.setText(temp_max + "º");
+            Temp_min.setText(temp_min+"º");
+
+            Log.v("Activity One result", temp);
         }
     }
+
+    public void reload(){
+        Temperature.setText(temp+"º");
+        Temp_max.setText(temp_max+"º");
+        Temp_min.setText(temp_min+"º");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        Log.v("hoour", "" + hour);
+        if (hour>=6 && hour<19) {
+            Log.v("time", "day");
+            layout.setBackgroundResource(R.drawable.bg1);
+            fahrenheit.setTextColor(Color.parseColor("#000000"));
+            celsius.setTextColor(Color.parseColor("#000000"));
+            data.setTextColor(Color.parseColor("#000000"));
+        }
+        else if (hour>=19 && hour<=23 ){
+            Log.v("time", "night");
+            layout.setBackgroundResource(R.drawable.bg2);
+            fahrenheit.setTextColor(Color.parseColor("#FFFFFF"));
+            celsius.setTextColor(Color.parseColor("#FFFFFF"));
+            data.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+        else if (hour>=0 && hour<6 ){
+            Log.v("time", "night");
+            layout.setBackgroundResource(R.drawable.bg2);
+            fahrenheit.setTextColor(Color.parseColor("#FFFFFF"));
+            celsius.setTextColor(Color.parseColor("#FFFFFF"));
+            data.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+    }
+
+
+
 }

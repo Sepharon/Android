@@ -3,7 +3,10 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:id="@+id/back"
+    android:background="#000000">
+
 
     <EditText
         android:layout_width="wrap_content"
@@ -14,7 +17,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="54dp"
-        android:inputType="textCapSentences"/>
+        android:inputType="textCapSentences"
+        android:textColor="#FFFF"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColorHint="#FFFF" />
     <Spinner
         android:layout_width="75dp"
         android:layout_height="50dp"
@@ -27,14 +34,7 @@
         android:layout_alignStart="@+id/data_field" />
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/weather"
-        android:id="@+id/button"
-        android:layout_below="@+id/checkBox2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -43,102 +43,106 @@
         android:id="@+id/checkBox"
         android:layout_below="@+id/spinner"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:textColor="#FFFF" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Celsius"
         android:id="@+id/checkBox2"
+        android:textColor="#FFFF"
         android:layout_below="@+id/checkBox"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_alignLeft="@+id/checkBox"
+        android:layout_alignStart="@+id/checkBox" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:text="@string/temp"
-        android:layout_below="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:layout_toLeftOf="@+id/textView3"
-        android:layout_marginTop="20dp" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/button"
-        android:layout_centerHorizontal="true" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:text="@string/windspeed"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_toLeftOf="@+id/textView4" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/temp"
+        android:textColor="#FFFF"
+        android:textSize="70sp"
+        android:typeface="serif"
+        android:textStyle="normal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/humidity"
+        android:layout_alignEnd="@+id/humidity"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:text="@string/pressure"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_toLeftOf="@+id/textView6" />
+        android:id="@+id/temp_min"
+        android:textColor="#FFFF"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:layout_above="@+id/temp"
+        android:layout_toRightOf="@+id/textView13"
+        android:layout_toEndOf="@+id/textView13" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        android:layout_below="@+id/textView4"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/temp_max"
+        android:textColor="#FFFF"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:layout_alignTop="@+id/temp_min"
+        android:layout_toRightOf="@+id/textView14"
+        android:layout_toLeftOf="@+id/humidity"
+        android:layout_toStartOf="@+id/humidity" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView7"
-        android:text="@string/humidity"
-        android:layout_below="@+id/textView5"
-        android:layout_centerHorizontal="true"
-        android:layout_toLeftOf="@+id/textView8" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView13"
+        android:textSize="20sp"
+        android:textColor="#FFFF"
+        android:layout_above="@+id/temp"
+        android:layout_alignLeft="@+id/temp"
+        android:layout_alignStart="@+id/temp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView8"
-        android:layout_below="@+id/textView6"
-        android:layout_centerHorizontal="true" />
-    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView14"
+        android:textColor="#FFFF"
+        android:textSize="20sp"
+        android:layout_above="@+id/temp"
+        android:layout_toRightOf="@+id/temp_min"
+        android:layout_toEndOf="@+id/temp_min"
+        android:layout_marginLeft="10dp" />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView9"
-        android:text="@string/temp_min"
-        android:layout_below="@+id/textView7"
-        android:layout_centerHorizontal="true"
-        android:layout_toLeftOf="@+id/textView10" />
-    <TextView
+        android:text="@string/details"
+        android:id="@+id/button2"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/checkBox2"
+        android:layout_toRightOf="@+id/button"
+        android:layout_marginLeft="30dp"
+        android:onClick="request_data"/>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView10"
-        android:layout_below="@+id/textView8"
-        android:layout_centerHorizontal="true" />
-    <TextView
+        android:text="@string/weather"
+        android:id="@+id/button"
+        android:layout_below="@+id/checkBox2"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="50dp" />
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView11"
-        android:text="@string/temp_max"
-        android:layout_below="@+id/textView9"
-        android:layout_centerHorizontal="true"
-        android:layout_toLeftOf="@+id/textView12" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView12"
-        android:layout_below="@+id/textView10"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/temp_max"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2"
+        android:id="@+id/img"/>
 </RelativeLayout>

@@ -19,6 +19,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,9 +33,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import javax.net.ssl.HttpsURLConnection;
 
 public class Weather_Data extends Service {
+    JSONObject weatherData = null;
+    JSONObject mainData = null;
+    JSONObject windData = null;
+    JSONArray weather = null;
 
     static final int MSG_GET_DATA = 1;
     static final String url = "http://api.openweathermap.org";
@@ -45,7 +49,9 @@ public class Weather_Data extends Service {
     String result_city="";
     String result_country="";
     String temp_units="";
-    JSONObject weather_data;
+
+    boolean first=true;
+
     public class LocalBinder extends Binder {
         Weather_Data getService() {
             // Return this instance of LocalService so clients can call public methods
@@ -72,22 +78,38 @@ public class Weather_Data extends Service {
             Toast.makeText(getBaseContext(), "No network available", Toast.LENGTH_LONG).show();
         }
         else {
-            Log.v("Service: ", "Started countdown");
-            new CountDownTimer(20000, 1000) {
-                public void onTick(long millisUntilFinished) {}
-                public void onFinish() {
-                    //Write function to be called
-                    get_weather_data();
-                    start();
-                }
-            }.start();
+            if (first) {
+                first=false;
+                Log.v("Service: ", "Started countdown");
+                new CountDownTimer(18000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+                        //Write function to be called
+                        get_weather_data();
+                        start();
+                    }
+                }.start();
+            } else {
+                Log.v("Service: ", "Started countdown");
+                new CountDownTimer(300000, 1000) { //5min
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+                        //Write function to be called
+                        get_weather_data();
+                        start();
+                    }
+                }.start();
+            }
         }
     }
 
     public void get_weather_data(){
-        // TODO : DB WITH ID ?
-
         int responseCode;
+        Log.v("temp_unit", ""+temp_units);
 
         String full_url = url+request+"q="+result_city+","+result_country+"&units="+temp_units+"&APPID=3e16d61afeec2d2b55c477eaf523cb20";
         Log.v("Service:", "full url = " + full_url);
@@ -111,7 +133,32 @@ public class Weather_Data extends Service {
                 String json = reader.readLine();
                 Log.v("Service: ", json);
                 // Put the data in a JSONObject
-                weather_data = new JSONObject(json);
+                weatherData = new JSONObject(json);
+                mainData = weatherData.getJSONObject("main");
+                windData = weatherData.getJSONObject("wind");
+                Log.v("Services:", windData.getString("speed"));
+                Log.v("Services:", mainData.getString("temp"));
+                Log.v("Service: ", mainData.getString("temp_min"));
+                Log.v("Services:", mainData.getString("temp_max"));
+                Log.v("Services:", mainData.getString("pressure"));
+                Log.v("Services:", mainData.getString("humidity"));
+
+                weather = weatherData.getJSONArray("weather");
+                Log.v("Service: ", weather.getJSONObject(0).getString("main"));
+
+                Intent broadcast = new Intent();
+                broadcast.setAction("miss_temps");
+                broadcast.putExtra("temp", mainData.getString("temp"));
+                broadcast.putExtra("temp_min", mainData.getString("temp_min"));
+                broadcast.putExtra("temp_max", mainData.getString("temp_max"));
+                broadcast.putExtra("pressure", mainData.getString("pressure"));
+                broadcast.putExtra("humidity", mainData.getString("humidity"));
+                broadcast.putExtra("windspeed", windData.getString("speed"));
+                broadcast.putExtra("weather", weather.getJSONObject(0).getString("main"));
+                broadcast.putExtra("units", temp_units);
+                sendBroadcast(broadcast);
+
+
             }
             else {
                 Log.v("Service: ", "city does not exist");
@@ -146,7 +193,7 @@ public class Weather_Data extends Service {
                     result_city = msg.getData().getString("city");
                     result_country = msg.getData().getString("country_code");
                     temp_units = msg.getData().getString("unit");
-                    Toast.makeText(getApplicationContext(), result_city, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Requesting weather's data", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     super.handleMessage(msg);
