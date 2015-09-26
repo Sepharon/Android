@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">H4_Group_14</string>
+    <string name="app_name" translatable="false">AarhWeatherAPP_Group_14</string>
 
     <string-array name="country_codes">
         <item>es</item>
@@ -43,6 +43,7 @@
     <string name="about_text">This application was made by group 14. \n\nIt asks for a city name to get the weather as well as the country from which the city is. After that you can click the Submit button and it will send a message to the service \nThis service will make an http request every 5 minutes and will send the data back to the activity and the activity will display the results.</string>
     <string name="action_about">About</string>
     <string name="title_activity_weather" translatable="false">H4_Group_14</string>
+    <string name="title_activity_main" translatable="false">H4_Group_14</string>
 
     <string name="hello_world" translatable="false">Hello world!</string>
     <string name="action_settings">Settings</string>
