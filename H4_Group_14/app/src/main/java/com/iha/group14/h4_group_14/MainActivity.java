@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("city", data.getText().toString());
                 intent.putExtra("temp", temp);
                 intent.putExtra("temp_min", temp_min);
-                intent.putExtra("temp_max", temp_min);
+                intent.putExtra("temp_max", temp_max);
                 intent.putExtra("humidity", humidity);
                 intent.putExtra("pressure", pressure);
                 intent.putExtra("windspeed", windspeed);
@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 img.setImageResource(R.drawable.scattered_clouds);
             }
             else if (weather.equals("Rain")){
-                img.setImageResource(R.drawable.rain);
+                img.setImageResource(R.drawable.shower_rain);
             }
             else if (weather.equals("Snow")){
                 img.setImageResource(R.drawable.snow);
