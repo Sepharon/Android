@@ -43,7 +43,7 @@ public class Weather_Data extends Service {
     static final int MSG_GET_DATA = 1;
     static final String url = "http://api.openweathermap.org";
     static final String request = "/data/2.5/weather?";
-
+    int i=0;
     private final IBinder mBinder = new LocalBinder();
     private Messenger msg = new Messenger(new IncomingHandler());
     String result_city="";
@@ -83,6 +83,7 @@ public class Weather_Data extends Service {
                 Log.v("Service: ", "Started countdown");
                 new CountDownTimer(18000, 1000) {
                     public void onTick(long millisUntilFinished) {
+                        Log.v("Service time:",""+i++ );
                     }
 
                     public void onFinish() {
@@ -191,6 +192,7 @@ public class Weather_Data extends Service {
 
                     Log.v("Service:", "Got data");
                     result_city = msg.getData().getString("city");
+                    Log.v("Service:",result_city);
                     result_country = msg.getData().getString("country_code");
                     temp_units = msg.getData().getString("unit");
                     Toast.makeText(getApplicationContext(), "Requesting weather's data", Toast.LENGTH_SHORT).show();
