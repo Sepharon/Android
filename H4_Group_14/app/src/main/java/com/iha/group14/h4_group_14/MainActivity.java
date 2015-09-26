@@ -266,32 +266,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
-        c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        Log.v("hoour", ""+hour);
-        if (hour>=6 && hour<19) {
-            Log.v("time", "day");
-            layout.setBackgroundResource(R.drawable.bg1);
-            fahrenheit.setTextColor(Color.parseColor("#000000"));
-            celsius.setTextColor(Color.parseColor("#000000"));
-            data.setTextColor(Color.parseColor("#000000"));
-
-
-        }
-        else if (hour>=19 && hour<=23 ){
-            Log.v("time", "night");
-            layout.setBackgroundResource(R.drawable.bg2);
-            fahrenheit.setTextColor(Color.parseColor("#FFFFFF"));
-            celsius.setTextColor(Color.parseColor("#FFFFFF"));
-            data.setTextColor(Color.parseColor("#FFFFFF"));
-        }
-        else if (hour>=0 && hour<6 ){
-            Log.v("time", "night");
-            layout.setBackgroundResource(R.drawable.bg2);
-            fahrenheit.setTextColor(Color.parseColor("#FFFFFF"));
-            celsius.setTextColor(Color.parseColor("#FFFFFF"));
-            data.setTextColor(Color.parseColor("#FFFFFF"));
-        }
+        change();
 
     }
 
@@ -364,6 +339,19 @@ public class MainActivity extends AppCompatActivity {
             else if (weather.equals("Clouds")){
                 img.setImageResource(R.drawable.day_clouds);
             }
+            else if (weather.equals("Rain")){
+                img.setImageResource(R.drawable.rain);
+            }
+            else if (weather.equals("Snow")){
+                img.setImageResource(R.drawable.snow);
+            }
+            else if (weather.equals("Thunderstorm")){
+                img.setImageResource(R.drawable.thunderstorm);
+            }
+            else if (weather.equals("Mist")){
+                img.setImageResource(R.drawable.mist);
+            }
+
             Temperature.setText(temp+"º");
             Temp_max.setText(temp_max + "º");
             Temp_min.setText(temp_min+"º");
@@ -381,15 +369,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        change();
+    }
+
+    public void change(){
         c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
-        Log.v("hoour", "" + hour);
+        Log.v("hoour", ""+hour);
         if (hour>=6 && hour<19) {
             Log.v("time", "day");
             layout.setBackgroundResource(R.drawable.bg1);
             fahrenheit.setTextColor(Color.parseColor("#000000"));
             celsius.setTextColor(Color.parseColor("#000000"));
             data.setTextColor(Color.parseColor("#000000"));
+
+
         }
         else if (hour>=19 && hour<=23 ){
             Log.v("time", "night");
