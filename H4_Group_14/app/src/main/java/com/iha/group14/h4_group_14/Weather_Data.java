@@ -78,33 +78,37 @@ public class Weather_Data extends Service {
             Toast.makeText(getBaseContext(), "No network available", Toast.LENGTH_LONG).show();
         }
         else {
-            if (first) {
+            /*if (first) {
                 first=false;
+                Log.v("Service: ",""+first);
                 Log.v("Service: ", "Started countdown");
                 new CountDownTimer(18000, 1000) {
                     public void onTick(long millisUntilFinished) {
-                        Log.v("Service time:",""+i++ );
                     }
 
                     public void onFinish() {
                         //Write function to be called
+                        Log.v("Service: "," 18 sec countdown");
                         get_weather_data();
                         start();
                     }
                 }.start();
-            } else {
+            } else {*/
                 Log.v("Service: ", "Started countdown");
-                new CountDownTimer(300000, 1) { //5min
+                new CountDownTimer(300000, 1000) { //5min
                     public void onTick(long millisUntilFinished) {
+                        Log.v("Service:",""+(i++));
                     }
 
                     public void onFinish() {
                         //Write function to be called
+                        i=0;
+                        Log.v("Service: ","5 min countdown");
                         get_weather_data();
                         start();
                     }
                 }.start();
-            }
+            //}
         }
     }
 
@@ -201,6 +205,7 @@ public class Weather_Data extends Service {
                     result_country = msg.getData().getString("country_code");
                     temp_units = msg.getData().getString("unit");
                     Toast.makeText(getApplicationContext(), "Requesting weather's data", Toast.LENGTH_SHORT).show();
+                    get_weather_data();
                     break;
                 default:
                     super.handleMessage(msg);
