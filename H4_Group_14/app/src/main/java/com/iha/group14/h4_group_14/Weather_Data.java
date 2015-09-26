@@ -93,7 +93,7 @@ public class Weather_Data extends Service {
                 }.start();
             } else {
                 Log.v("Service: ", "Started countdown");
-                new CountDownTimer(300000, 1000) { //5min
+                new CountDownTimer(300000, 1) { //5min
                     public void onTick(long millisUntilFinished) {
                     }
 
