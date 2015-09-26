@@ -24,6 +24,8 @@ import android.os.RemoteException;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +40,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
@@ -58,11 +62,12 @@ public class MainActivity extends AppCompatActivity {
     TextView Temperature;
     TextView Temp_min;
     TextView Temp_max;
+    TextView min;
+    TextView max;
 
     RelativeLayout layout;
 
-    String T="";
-    String W="";
+
     String temp="";
     String temp_min="";
     String temp_max="";
@@ -70,15 +75,18 @@ public class MainActivity extends AppCompatActivity {
     String humidity ="";
     String pressure ="";
     String windspeed ="";
+    String units ="";
 
     Button b;
     Button details;
 
     Calendar c;
 
+    ImageView img;
+
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         // Unbind from the service
         if (is_bound) {
             unbindService(mConnection);
@@ -103,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         Temp_min = (TextView)findViewById(R.id.temp_min);
         Temp_max = (TextView)findViewById(R.id.temp_max);
         layout = (RelativeLayout)findViewById(R.id.back);
+        min = (TextView)findViewById(R.id.textView13);
+        max = (TextView)findViewById(R.id.textView14);
+        img = (ImageView)findViewById(R.id.img);
 
         spinner = (Spinner)findViewById(R.id.spinner);
 
@@ -143,28 +154,31 @@ public class MainActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!is_bound) return;
-                // Create and send a message to the service, using a supported 'what' value
-                Log.v("Activity:", "Getting ready");
-                Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA);
-                Bundle bundle = new Bundle();
-                if (celsius.isChecked()) {
-                    temperature = "metric";
-                } else if (fahrenheit.isChecked()) {
-                    temperature = "imperial";
-                }
-                bundle.putString("unit", temperature);
-                bundle.putString("city", data.getText().toString());
-                bundle.putString("country_code", spinner.getSelectedItem().toString());
-                msg.setData(bundle);
-                try {
-                    mService.send(msg);
-                    Log.v("Activity:", "Message sent");
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                if (is_bound) {
+                    //if (!is_bound) return;
+                    // Create and send a message to the service, using a supported 'what' value
+                    Log.v("Activity:", "Getting ready");
+                    Message msg = Message.obtain(null, Weather_Data.MSG_GET_DATA);
+                    Bundle bundle = new Bundle();
+                    if (celsius.isChecked() && !fahrenheit.isChecked()) {
+                        temperature = "metric";
+                    } else if (fahrenheit.isChecked() && !celsius.isChecked()) {
+                        temperature = "imperial";
+                    }
+                    Log.v("temp_units", "" + temperature);
+                    bundle.putString("unit", temperature);
+                    bundle.putString("city", data.getText().toString());
+                    bundle.putString("country_code", spinner.getSelectedItem().toString());
+                    msg.setData(bundle);
+                    try {
+                        mService.send(msg);
+                        Log.v("Activity:", "Message sent");
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
 
-                // Done sending data
+                    // Done sending data
+                }
             }
         });
 
@@ -181,15 +195,65 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("humidity", humidity);
                 intent.putExtra("pressure", pressure);
                 intent.putExtra("windspeed", windspeed);
-                if (temperature=="metric"){
+                if (units.equals("metric")) {
                     intent.putExtra("unit_temp", "C");
                     intent.putExtra("unit_wind", "km/h");
-                }
-                else if (temperature=="imperial"){
+                } else if (units.equals("imperial")) {
                     intent.putExtra("unit_temp", "F");
                     intent.putExtra("unit_wind", "mph");
                 }
                 startActivity(intent);
+            }
+        });
+
+        b.setEnabled(false);
+        details.setEnabled(false);
+
+        // When text from the Edit Text changes and it isn't null, Button Submit is enabled.
+        data.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (data.getText().toString().equals("")) {
+                    b.setEnabled(false);
+                } else {
+                    b.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // When text from the Edit Text changes and it isn't null, Button Submit is enabled.
+        Temperature.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Temperature.getText().toString().equals("")) {
+                    details.setEnabled(false);
+
+
+                } else {
+                    details.setEnabled(true);
+                    min.setText("min");
+                    max.setText("max");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -211,6 +275,8 @@ public class MainActivity extends AppCompatActivity {
             fahrenheit.setTextColor(Color.parseColor("#000000"));
             celsius.setTextColor(Color.parseColor("#000000"));
             data.setTextColor(Color.parseColor("#000000"));
+
+
         }
         else if (hour>=19 && hour<=23 ){
             Log.v("time", "night");
@@ -290,8 +356,16 @@ public class MainActivity extends AppCompatActivity {
             humidity = intent.getStringExtra("humidity");
             windspeed= intent.getStringExtra("windspeed");
             pressure = intent.getStringExtra("pressure");
+            units = intent.getStringExtra("units");
+
+            if (weather.equals("Clear")){
+                img.setImageResource(R.drawable.day_clear);
+            }
+            else if (weather.equals("Clouds")){
+                img.setImageResource(R.drawable.day_clouds);
+            }
             Temperature.setText(temp+"º");
-            Temp_max.setText(temp_max+"º");
+            Temp_max.setText(temp_max + "º");
             Temp_min.setText(temp_min+"º");
 
             Log.v("Activity One result", temp);
@@ -332,4 +406,7 @@ public class MainActivity extends AppCompatActivity {
             data.setTextColor(Color.parseColor("#FFFFFF"));
         }
     }
+
+
+
 }

@@ -109,6 +109,7 @@ public class Weather_Data extends Service {
 
     public void get_weather_data(){
         int responseCode;
+        Log.v("temp_unit", ""+temp_units);
 
         String full_url = url+request+"q="+result_city+","+result_country+"&units="+temp_units+"&APPID=3e16d61afeec2d2b55c477eaf523cb20";
         Log.v("Service:", "full url = " + full_url);
@@ -154,6 +155,7 @@ public class Weather_Data extends Service {
                 broadcast.putExtra("humidity", mainData.getString("humidity"));
                 broadcast.putExtra("windspeed", windData.getString("speed"));
                 broadcast.putExtra("weather", weather.getJSONObject(0).getString("main"));
+                broadcast.putExtra("units", temp_units);
                 sendBroadcast(broadcast);
 
 
@@ -191,7 +193,7 @@ public class Weather_Data extends Service {
                     result_city = msg.getData().getString("city");
                     result_country = msg.getData().getString("country_code");
                     temp_units = msg.getData().getString("unit");
-                    Toast.makeText(getApplicationContext(), result_city, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Requesting weather's data", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     super.handleMessage(msg);
