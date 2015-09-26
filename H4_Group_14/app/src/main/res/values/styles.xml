@@ -7,5 +7,6 @@
 
     <style name="SpinnerItem" parent="@android:style/Widget.TextView.SpinnerItem">
         <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">40sp</item>
     </style>
 </resources>

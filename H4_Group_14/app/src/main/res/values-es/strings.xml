@@ -2,12 +2,19 @@
 <resources>
     <string name="action_settings">Opciones</string>
     <string name="city">Escribe una ciudad</string>
-    <string name="humidity">Humedad:</string>
-    <string name="pressure">Presión:</string>
-    <string name="temp">Temperatura:</string>
+    <string name="humidity">Humedad: </string>
+    <string name="pressure">Presión: </string>
+    <string name="temp">Temperatura: </string>
     <string name="title_activity_about">Información</string>
     <string name="weather">Envia</string>
-    <string name="windspeed">Velocidad de el viento:</string>
+    <string name="windspeed">Velocidad de el viento: </string>
     <string name="action_about">Información</string>
     <string name="about_text">Ésta aplicación ha sido creada por el grupo 14. \n\nSolicita el nombre de una ciudad para obtener el tiempo además de el código de el país. Después puedes clicar al botón de enviar  y enviará un mensage al servicio \nEl servicio hará un http request cada 20 segundos y enviará los datos hacia  la actividad y ésta mostrará los resultados.</string>
+    <string name="details">Más detalles</string>
+    <string name="Celsius">Celsius</string>
+    <string name="temp_max">Temp max:</string>
+    <string name="city_d">Ciudad: </string>
+    <string name="country_d">Código del país: </string>
+    <string name="temp_max_d">Temperatura máxima: </string>
+    <string name="temp_min_d">Temperatura mínima: </string>
 </resources>
