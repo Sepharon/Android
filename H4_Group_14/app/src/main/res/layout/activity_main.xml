@@ -26,10 +26,9 @@
         android:layout_width="75dp"
         android:layout_height="50dp"
         android:id="@+id/spinner"
-        android:layout_alignParentTop="false"
-        android:layout_marginTop="54dp"
-        android:layout_toRightOf="@+id/data_field"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/data_field"
+        android:layout_centerHorizontal="true" />
 
 
 
