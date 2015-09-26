@@ -110,7 +110,7 @@ public class Weather_Data extends Service {
 
     public void get_weather_data(){
         int responseCode;
-        Log.v("temp_unit", ""+temp_units);
+        Log.v("temp_unit", "" + temp_units);
 
         String full_url = url+request+"q="+result_city+","+result_country+"&units="+temp_units+"&APPID=3e16d61afeec2d2b55c477eaf523cb20";
         Log.v("Service:", "full url = " + full_url);
@@ -134,32 +134,12 @@ public class Weather_Data extends Service {
                 String json = reader.readLine();
                 Log.v("Service: ", json);
                 // Put the data in a JSONObject
-                weatherData = new JSONObject(json);
-                mainData = weatherData.getJSONObject("main");
-                windData = weatherData.getJSONObject("wind");
-                Log.v("Services:", windData.getString("speed"));
-                Log.v("Services:", mainData.getString("temp"));
-                Log.v("Service: ", mainData.getString("temp_min"));
-                Log.v("Services:", mainData.getString("temp_max"));
-                Log.v("Services:", mainData.getString("pressure"));
-                Log.v("Services:", mainData.getString("humidity"));
-
-                weather = weatherData.getJSONArray("weather");
-                Log.v("Service: ", weather.getJSONObject(0).getString("main"));
-
-                Intent broadcast = new Intent();
-                broadcast.setAction("miss_temps");
-                broadcast.putExtra("temp", mainData.getString("temp"));
-                broadcast.putExtra("temp_min", mainData.getString("temp_min"));
-                broadcast.putExtra("temp_max", mainData.getString("temp_max"));
-                broadcast.putExtra("pressure", mainData.getString("pressure"));
-                broadcast.putExtra("humidity", mainData.getString("humidity"));
-                broadcast.putExtra("windspeed", windData.getString("speed"));
-                broadcast.putExtra("weather", weather.getJSONObject(0).getString("main"));
-                broadcast.putExtra("units", temp_units);
-                sendBroadcast(broadcast);
-
-
+                try {
+                    weatherData = new JSONObject(json);
+                    get_data_json(weatherData);
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
             else {
                 Log.v("Service: ", "city does not exist");
@@ -169,11 +149,36 @@ public class Weather_Data extends Service {
             e.printStackTrace();
         } catch (IOException e){
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
     }
+
+    public void get_data_json(JSONObject weatherData) throws JSONException{
+        mainData = weatherData.getJSONObject("main");
+        windData = weatherData.getJSONObject("wind");
+        Log.v("Services:", windData.getString("speed"));
+        Log.v("Services:", mainData.getString("temp"));
+        Log.v("Service: ", mainData.getString("temp_min"));
+        Log.v("Services:", mainData.getString("temp_max"));
+        Log.v("Services:", mainData.getString("pressure"));
+        Log.v("Services:", mainData.getString("humidity"));
+
+        weather = weatherData.getJSONArray("weather");
+        Log.v("Service: ", weather.getJSONObject(0).getString("main"));
+
+        Intent broadcast = new Intent();
+        broadcast.setAction("miss_temps");
+        broadcast.putExtra("temp", mainData.getString("temp"));
+        broadcast.putExtra("temp_min", mainData.getString("temp_min"));
+        broadcast.putExtra("temp_max", mainData.getString("temp_max"));
+        broadcast.putExtra("pressure", mainData.getString("pressure"));
+        broadcast.putExtra("humidity", mainData.getString("humidity"));
+        broadcast.putExtra("windspeed", windData.getString("speed"));
+        broadcast.putExtra("weather", weather.getJSONObject(0).getString("main"));
+        broadcast.putExtra("units", temp_units);
+        sendBroadcast(broadcast);
+    }
+
 
     public boolean is_network_available(){
         ConnectivityManager connectivityManager
