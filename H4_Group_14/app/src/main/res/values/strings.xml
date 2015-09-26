@@ -29,7 +29,7 @@
         <item>uk</item>
         <item>us</item>
     </string-array>
-    <string name="title_activity_about">About</string>
+    <string name="title_activity_about">H4_Group_14</string>
     <string name="temp_max">Temp max:</string>
     <string name="temp_min" translatable="false">Temp min:</string>
     <string name="temp">Temperature: </string>
