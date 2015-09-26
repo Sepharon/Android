@@ -10,7 +10,7 @@
     <string name="weather">Envia</string>
     <string name="windspeed">Velocidad de el viento: </string>
     <string name="action_about">Información</string>
-    <string name="about_text">Ésta aplicación ha sido creada por el grupo 14. \n\nSolicita el nombre de una ciudad para obtener el tiempo además de el código de el país. Después puedes clicar al botón de enviar  y enviará un mensage al servicio \nEl servicio hará un http request cada 20 segundos y enviará los datos hacia  la actividad y ésta mostrará los resultados.</string>
+    <string name="about_text">Ésta aplicación ha sido creada por el grupo 14. \n\nSolicita el nombre de una ciudad para obtener el tiempo además de el código de el país. Después puedes clicar al botón de enviar  y enviará un mensage al servicio \nEl servicio hará un http request cada 5 minutos y enviará los datos hacia  la actividad y ésta mostrará los resultados.</string>
     <string name="details">Más detalles</string>
     <string name="Celsius">Celsius</string>
     <string name="temp_max">Temp max:</string>

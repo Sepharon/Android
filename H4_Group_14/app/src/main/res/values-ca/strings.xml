@@ -11,7 +11,7 @@
     <string name="weather">Envia</string>
     <string name="windspeed">Velocitat del vent: </string>
     <string name="action_about">Informació</string>
-    <string name="about_text">Aquesta aplicació ha sigut creada pel grup 14. \n\nDemana el nom d\'una ciutat per obtenir el temps a més del codi del país. Després pots clicar al botó d\'enviar  i enviarà un missatge al servei \nEl servei farà un http request cada 20 segons i enviarà  les dades cap a l\'activitat i aquesta mostrarà els resultats.</string>
+    <string name="about_text">Aquesta aplicació ha sigut creada pel grup 14. \n\nDemana el nom d\'una ciutat per obtenir el temps a més del codi del país. Després pots clicar al botó d\'enviar i enviarà un missatge al servei \nEl servei farà un http request cada 5 minuts i enviarà  les dades cap a l\'activitat i aquesta mostrarà els resultats.</string>
     <string name="details">Més detalls</string>
     <string name="city_d">Ciutat: </string>
     <string name="country_d">Codi del país: </string>
