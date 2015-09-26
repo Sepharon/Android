@@ -14,21 +14,24 @@
         android:id="@+id/data_field"
         android:hint="@string/city"
         android:background="@null"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="58dp"
         android:inputType="textCapSentences"
         android:textColor="#FFFF"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:textColorHint="#FFFF" />
+        android:textColorHint="#FFFF"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/checkBox"
+        android:layout_alignEnd="@+id/checkBox" />
     <Spinner
-        android:layout_width="75dp"
+        android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:id="@+id/spinner"
-        android:layout_marginTop="10dp"
         android:layout_below="@+id/data_field"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/data_field"
+        android:layout_alignStart="@+id/data_field" />
 
 
 
@@ -120,7 +123,7 @@
         android:text="@string/details"
         android:id="@+id/button2"
         android:onClick="request_data"
-        android:layout_alignTop="@+id/button"
+        android:layout_above="@+id/textView14"
         android:layout_toRightOf="@+id/checkBox2"
         android:layout_toEndOf="@+id/checkBox2" />
 
@@ -129,9 +132,9 @@
         android:layout_height="wrap_content"
         android:text="@string/weather"
         android:id="@+id/button"
-        android:layout_below="@+id/checkBox2"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="50dp" />
+        android:layout_above="@+id/temp_max"
+        android:layout_toLeftOf="@+id/checkBox2"
+        android:layout_toStartOf="@+id/checkBox2" />
 
     <ImageView
         android:layout_width="100dp"
