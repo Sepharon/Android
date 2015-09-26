@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     String pressure ="";
     String windspeed ="";
     String units ="";
+    String country_code ="";
 
     Button b;
     Button details;
@@ -188,13 +189,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Weather.class);
                 intent.putExtra("city", data.getText().toString());
-                intent.putExtra("country", spinner.getSelectedItem().toString());
                 intent.putExtra("temp", temp);
                 intent.putExtra("temp_min", temp_min);
                 intent.putExtra("temp_max", temp_min);
                 intent.putExtra("humidity", humidity);
                 intent.putExtra("pressure", pressure);
                 intent.putExtra("windspeed", windspeed);
+                intent.putExtra("country", country_code);
                 if (units.equals("metric")) {
                     intent.putExtra("unit_temp", "C");
                     intent.putExtra("unit_wind", "km/h");
@@ -332,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
             windspeed= intent.getStringExtra("windspeed");
             pressure = intent.getStringExtra("pressure");
             units = intent.getStringExtra("units");
+            country_code=intent.getStringExtra("country_code");
 
             if (weather.equals("Clear")){
                 img.setImageResource(R.drawable.day_clear);

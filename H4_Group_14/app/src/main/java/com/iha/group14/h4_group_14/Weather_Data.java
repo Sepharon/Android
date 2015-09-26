@@ -38,7 +38,9 @@ public class Weather_Data extends Service {
     JSONObject weatherData = null;
     JSONObject mainData = null;
     JSONObject windData = null;
+    JSONObject country = null;
     JSONArray weather = null;
+
 
     static final int MSG_GET_DATA = 1;
     static final String url = "http://api.openweathermap.org";
@@ -160,6 +162,7 @@ public class Weather_Data extends Service {
     public void get_data_json(JSONObject weatherData) throws JSONException{
         mainData = weatherData.getJSONObject("main");
         windData = weatherData.getJSONObject("wind");
+        country = weatherData.getJSONObject("sys");
         Log.v("Services:", windData.getString("speed"));
         Log.v("Services:", mainData.getString("temp"));
         Log.v("Service: ", mainData.getString("temp_min"));
@@ -180,6 +183,7 @@ public class Weather_Data extends Service {
         broadcast.putExtra("windspeed", windData.getString("speed"));
         broadcast.putExtra("weather", weather.getJSONObject(0).getString("main"));
         broadcast.putExtra("units", temp_units);
+        broadcast.putExtra("country_code", country.getString("country"));
         sendBroadcast(broadcast);
     }
 
