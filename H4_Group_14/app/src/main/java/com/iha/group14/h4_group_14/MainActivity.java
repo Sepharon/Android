@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView img;
 
+    IntentFilter filter;
+    MyReceiver receiver;
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -98,8 +101,9 @@ public class MainActivity extends AppCompatActivity {
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
         //Intent-filter for receiving Broadcast
-        IntentFilter filter = new IntentFilter("miss_temps");
-        this.registerReceiver(new MyReceiver(), filter);
+        filter = new IntentFilter("miss_temps");
+        receiver = new MyReceiver();
+        this.registerReceiver(receiver, filter);
 
         data = (EditText)findViewById(R.id.data_field);
         Temperature = (TextView)findViewById(R.id.temp);
@@ -371,6 +375,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        this.registerReceiver(receiver, filter);
         change();
     }
 
@@ -404,6 +409,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.unregisterReceiver(receiver);
+    }
 }
